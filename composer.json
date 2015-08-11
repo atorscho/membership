@@ -1,43 +1,45 @@
 {
-    "name": "league/:package_name",
-    "description": ":package_description",
+    "name": "atorscho/uservel",
+    "description": "Powerful user management system with groups and permissions for Laravel 5.",
     "keywords": [
-        "league",
-        ":package_name"
+        "users",
+        "groups",
+        "permissions",
+        "laravel",
+        "management",
+        "roles",
+        "capabilities"
     ],
-    "homepage": "https://github.com/thephpleague/:package_name",
+    "homepage": "https://github.com/atorscho/uservel",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": ":author_website",
+            "name": "Alex Torscho",
+            "email": "contact@alextorscho.com",
+            "homepage": "http://alextorscho.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php" : ">=5.3.0"
+        "php" : ">=5.5.9",
+        "illuminate/support": "5.0 - 5.1"
     },
     "require-dev": {
+        "mockery/mockery": "0.9.*",
         "phpunit/phpunit" : "4.*",
-        "scrutinizer/ocular": "~1.1"
+        "phpspec/phpspec": "~2.1"
     },
     "autoload": {
         "psr-4": {
-            "League\\Skeleton\\": "src"
+            "Atorscho\\Uservel\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "League\\Skeleton\\Test\\": "tests"
+            "Atorscho\\Uservel\\Tests\\": "tests"
         }
     },
     "scripts": {
         "test": "phpunit"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
     }
 }
