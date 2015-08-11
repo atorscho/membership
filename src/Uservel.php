@@ -3,6 +3,10 @@
 namespace Atorscho\Uservel;
 
 use Atorscho\Uservel\Groups\Group;
+use Atorscho\Uservel\Permissions\Permission;
+use Auth;
+use Exception;
+use File;
 
 class Uservel
 {
@@ -13,12 +17,12 @@ class Uservel
      * @param int|string $group
      *
      * @return object
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function createUser(array $attributes, $group)
+    public function createUser(array $attributes, $group)
     {
         if (!$attributes) {
-            throw new \Exception('Parameter $attributes must be specified.');
+            throw new Exception('Parameter $attributes must be specified.');
         }
 
         $user = config('uservel.users.model');
@@ -26,54 +30,16 @@ class Uservel
         $user = $user::create($attributes);
 
         if (!is_numeric($group)) {
-            $group = Group::whereHandle(str_plural($group))->first();
+            $group = Group::whereHandle($group)->first();
 
             if (!$group) {
-                throw new \Exception('Group does not exist.');
+                throw new Exception('Group does not exist.');
             }
-
-            $group = $group->id;
         }
 
-        $user->groups()->attach($group);
+        $user->addGroup($group);
 
         return $user;
-    }
-
-    /**
-     * Create a member.
-     *
-     * @param array $attributes
-     *
-     * @return User
-     */
-    public static function createMember(array $attributes)
-    {
-        return static::createUser($attributes, 'members');
-    }
-
-    /**
-     * Create a moderator.
-     *
-     * @param array $attributes
-     *
-     * @return User
-     */
-    public static function createModerator(array $attributes)
-    {
-        return static::createUser($attributes, 'moderators');
-    }
-
-    /**
-     * Create an administrator.
-     *
-     * @param array $attributes
-     *
-     * @return User
-     */
-    public static function createAdmin(array $attributes)
-    {
-        return static::createUser($attributes, 'admins');
     }
 
     /**
@@ -82,12 +48,12 @@ class Uservel
      * @param int|string|Group $group
      * @param array|int|string $permissions
      */
-    public static function addGroupPermission($group, $permissions)
+    public function addGroupPermission($group, $permissions)
     {
         /** @var Group $group */
-        $group = static::getGroupModel($group);
+        $group = $this->getGroupModel($group);
 
-        $permissions = static::getPermissionIds($permissions);
+        $permissions = $this->getPermissionIds($permissions);
 
         $group->permissions()->attach($permissions);
     }
@@ -97,9 +63,9 @@ class Uservel
      *
      * @param string|null $attribute
      *
-     * @return User|string|bool
+     * @return object|string|bool
      */
-    public static function currentUser($attribute)
+    public function currentUser($attribute = null)
     {
         if (Auth::guest()) {
             return false;
@@ -121,7 +87,7 @@ class Uservel
      *
      * @return string
      */
-    public static function avatar($avatar = '')
+    public function avatar($avatar = '')
     {
         // If $avatar not specified, use authenticated user's one
         if (!$avatar && !is_null($avatar)) {
@@ -134,8 +100,8 @@ class Uservel
         }
 
         // Check for avatar file existance
-        if (static::avatarExists($avatar)) {
-            return asset(config('filesystems.uploads.avatars') . $avatar);
+        if ($this->avatarExists($avatar)) {
+            return asset(config('uservel.users.avatar.path') . $avatar);
         }
 
         // If does not exist, return the default one
@@ -149,9 +115,9 @@ class Uservel
      *
      * @return bool
      */
-    public static function avatarExists($avatar)
+    public function avatarExists($avatar)
     {
-        if (!$avatar || !File::exists(public_path(config('filesystems.uploads.avatars') . $avatar))) {
+        if (!$avatar || !File::exists(public_path(config('uservel.users.avatar.path') . $avatar))) {
             return false;
         }
 
@@ -165,13 +131,13 @@ class Uservel
      *
      * @return string
      */
-    protected static function defaultAvatar($path = false)
+    protected function defaultAvatar($path = false)
     {
         if ($path) {
-            return public_path(config('filesystems.avatars.default'));
+            return public_path(config('uservel.users.avatar.default'));
         }
 
-        return asset(config('filesystems.avatars.default'));
+        return asset(config('uservel.users.avatar.default'));
     }
 
     /**
@@ -179,17 +145,19 @@ class Uservel
      *
      * @param int|string|Group $group
      *
-     * @return mixed|static
-     * @throws \Exception
+     * @return Group
+     * @throws Exception
      */
-    protected static function getGroupModel($group)
+    protected function getGroupModel($group)
     {
         if (is_numeric($group)) {
             $group = Group::find($group);
         } elseif (is_string($group)) {
             $group = Group::whereHandle($group)->first();
-        } elseif (!$group instanceof Group) {
-            throw new \Exception('Group does not exist.');
+        }
+
+        if (!$group) {
+            throw new Exception('Group does not exist.');
         }
 
         return $group;
@@ -198,12 +166,14 @@ class Uservel
     /**
      * Get an array of permission IDs.
      *
+     * '*' for all permission IDs.
+     *
      * @param array|int|string|Permission $permissions
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    protected static function getPermissionIds($permissions)
+    protected function getPermissionIds($permissions)
     {
         // Wildcard support
         if ($permissions == '*') {
@@ -214,7 +184,7 @@ class Uservel
             $permission = Permission::find($permissions);
 
             if (!$permission) {
-                throw new \Exception('Permission does not exist.');
+                throw new Exception('Permission does not exist.');
             }
 
             return [(int) $permission->id];
@@ -222,7 +192,7 @@ class Uservel
             $permission = Permission::whereHandle($permissions)->first();
 
             if (!$permission) {
-                throw new \Exception('Permission does not exist.');
+                throw new Exception('Permission does not exist.');
             }
 
             return [(int) $permission->id];
@@ -233,9 +203,34 @@ class Uservel
         $ids = [];
 
         foreach ($permissions as $permission) {
-            $ids[] = static::getPermissionIds($permission);
+            $ids[] = $this->getPermissionIds($permission);
         }
 
         return array_flatten($ids);
+    }
+
+    /**
+     * Is triggered when invoking inaccessible methods in an object context.
+     *
+     * @param $name      string
+     * @param $arguments array
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function __call($name, $arguments)
+    {
+        // Remove 'create'
+        $group = str_replace('create', '', $name);
+        // Pluralize
+        $group = str_plural($group);
+        // Lowercase
+        $group = strtolower($group);
+
+        if (!Group::whereHandle($group)->first()) {
+            throw new Exception('Group does not exist.');
+        }
+
+        return $this->createUser($arguments[0], $group);
     }
 }

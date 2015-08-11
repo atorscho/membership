@@ -39,6 +39,9 @@ class InstallUservel extends Command
      */
     public function handle()
     {
+        $verbosityLevel = OutputInterface::VERBOSITY_VERBOSE;
+        $verbosity      = $this->getOutput()->getVerbosity();
+
         // Start progress bar
         $this->output->progressStart(4);
 
@@ -46,33 +49,33 @@ class InstallUservel extends Command
         $this->callSilent('vendor:publish', [
             '--provider' => UservelServiceProvider::class
         ]);
-        if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+        if ($verbosity >= $verbosityLevel) {
             $this->comment('1. Configuration and migrations files have been successfully published.');
         }
         $this->output->progressAdvance();
 
         // 2. Run migrations
         $this->callSilent('migrate');
-        if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+        if ($verbosity >= $verbosityLevel) {
             $this->comment('2. All tables have been successfully migrated.');
         }
         $this->output->progressAdvance();
 
-        // 3. Add default groups
-        $this->call('db:seed', [
-            '--class' => DefaultGroupsSeeder::class
-        ]);
-        if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-            $this->comment('3. Default groups have been added.');
-        }
-        $this->output->progressAdvance();
-
-        // 4. Add default permissions
+        // 3. Add default permissions
         $this->call('db:seed', [
             '--class' => DefaultPermissionsSeeder::class
         ]);
-        if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-            $this->comment('4. Default permissions have been added.');
+        if ($verbosity >= $verbosityLevel) {
+            $this->comment('3. Default permissions have been added.');
+        }
+        $this->output->progressAdvance();
+
+        // 4. Add default groups
+        $this->call('db:seed', [
+            '--class' => DefaultGroupsSeeder::class
+        ]);
+        if ($verbosity >= $verbosityLevel) {
+            $this->comment('4. Default groups have been added.');
         }
         $this->output->progressAdvance();
 

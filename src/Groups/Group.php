@@ -3,26 +3,38 @@
 namespace Atorscho\Uservel\Groups;
 
 use Atorscho\Uservel\Permissions\Permission;
+use Atorscho\Uservel\Permissions\PermissionsAttribute;
 use Atorscho\Uservel\Traits\HandleAttribute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Atorscho\Uservel\Groups\Group
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions 
- * @property-read \Illuminate\Database\Eloquent\Collection|\config('uservel.users.model[] $users 
- * @property-write mixed $handle 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\config('uservel.users.model[] $users
+ * @property-write mixed $handle
+ * @property integer $id 
+ * @property string $name 
+ * @property string $description 
+ * @property string $prefix 
+ * @property string $suffix 
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereHandle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group wherePrefix($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereSuffix($value)
  */
 class Group extends Model
 {
-    use HandleAttribute;
+    use HandleAttribute, PermissionsAttribute;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle'];
+    protected $fillable = ['name', 'handle', 'permissions'];
 
     /**
      * Cast attributes to relevant types.

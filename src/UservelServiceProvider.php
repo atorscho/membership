@@ -3,6 +3,8 @@
 namespace Atorscho\Uservel;
 
 use Atorscho\Uservel\Console\InstallUservel;
+use Atorscho\Uservel\Uservel;
+use Atorscho\Uservel\UservelFacade;
 use Blade;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
@@ -37,11 +39,20 @@ class UservelServiceProvider extends ServiceProvider
     public function register()
     {
         // Uservel Install Command
-        $this->app['command.uservel.install'] = $this->app->share(
-            function (Application $app) {
-                return $app->make(InstallUservel::class);
-            }
-        );
+        $this->app['command.uservel.install'] = $this->app->share(function (Application $app) {
+            return $app->make(InstallUservel::class);
+        });
         $this->commands('command.uservel.install');
+
+        // Facade
+        $this->app->bind('uservel', function (Application $app) {
+            return $app->make(Uservel::class);
+        });
+
+        // Alias
+        $this->app->booting(function () {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('Uservel', UservelFacade::class);
+        });
     }
 }

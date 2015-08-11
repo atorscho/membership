@@ -9,8 +9,12 @@ return [
     */
 
     'users'       => [
-        'model' => Atorscho\User::class,
-        'table' => 'users'
+        'avatar' => [
+            'path'    => 'uploads/images/avatars',
+            'default' => 'assets/img/misc/noavatar.png'
+        ],
+        'model'  => Atorscho\User::class,
+        'table'  => 'users',
     ],
 
     /*
