@@ -16,7 +16,11 @@ class UservelServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Publish Config
+        $this->publishes([
+            __DIR__ . '/../config/uservel.php' => config_path('uservel.php')
+        ], 'config');
+        $this->mergeConfigFrom(__DIR__ . '/../config/uservel.php', 'uservel');
     }
 
     /**
