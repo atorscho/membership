@@ -6,6 +6,13 @@ use Atorscho\Uservel\Permissions\Permission;
 use Atorscho\Uservel\Traits\HandleAttribute;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Atorscho\Uservel\Groups\Group
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\config('uservel.users.model[] $users 
+ * @property-write mixed $handle 
+ */
 class Group extends Model
 {
     use HandleAttribute;
