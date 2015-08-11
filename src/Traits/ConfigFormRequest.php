@@ -55,7 +55,7 @@ trait ConfigFormRequest
      */
     protected function configBool($key, $rule)
     {
-        return ( !!$this->getConfigValue($key, $rule) ) ? '|' . $rule : '';
+        return (!!$this->getConfigValue($key, $rule)) ? '|' . $rule : '';
     }
 
     /**

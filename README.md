@@ -5,33 +5,23 @@
 [![StyleCI][ico-styleci]][link-styleci]
 [![Software License][ico-license]][link-license]
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+> Currently under development.
 
 ## Install
 
 Via Composer
 
 ``` bash
-$ composer require league/uservel
+$ composer require atorscho/uservel
 ```
 
 ## Usage
 
-``` php
-$skeleton = new League\Skeleton();
-echo $skeleton->echoPhrase('Hello, League!');
-```
+
 
 ## Change log
 
 Please see [CHANGELOG][link-changelog] for more information what has changed recently.
-
-## Testing
-
-``` bash
-$ composer test
-```
 
 ## Contributing
 

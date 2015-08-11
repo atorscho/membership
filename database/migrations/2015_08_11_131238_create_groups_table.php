@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateGroupsTable extends Migration
 {
@@ -12,7 +12,7 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function(Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('handle')->unique();
@@ -21,13 +21,16 @@ class CreateGroupsTable extends Migration
             $table->string('suffix')->nullable();
         });
 
-        Schema::create('user_groups', function(Blueprint $table) {
+        Schema::create('user_groups', function (Blueprint $table) {
             $table->integer('group_id')->unsigned()->index();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on(config('uservel.users.table'))->onDelete('cascade');
 
-            $table->unique(['group_id', 'user_id']);
+            $table->unique([
+                'group_id',
+                'user_id'
+            ]);
         });
     }
 
