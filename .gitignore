@@ -1,4 +1,4 @@
-/bootstrap/compiled.php
-.env.*.php
-.env.php
-.env
+build
+composer.lock
+docs
+vendor
