@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection|\config('uservel.users.model[] $users
  * @property-write mixed                                                $handle
- * @property integer                                                    $id
+ * @property int                                                        $id
  * @property string                                                     $name
  * @property string                                                     $description
  * @property string                                                     $prefix

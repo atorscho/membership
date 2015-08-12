@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|\config('uservel.users.model[] $users
  * @property-write mixed                                           $handle
- * @property integer                                               $id
+ * @property int                                                   $id
  * @property string                                                $name
  * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Permissions\Permission whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Permissions\Permission whereName($value)

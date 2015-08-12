@@ -120,19 +120,32 @@ trait UservelRelations
      */
     public function __call($name, $arguments)
     {
-        if (strpos($name, 'is') !== false) {
-            throw new BadMethodCallException("Method {$name} does not exist.");
+        if (strpos($name, 'is') !== true) {
+            // Remove 'is'
+            $group = str_replace('is', '', $name);
+            // Lowercase
+            $group = strtolower($group);
+
+            if (!Group::whereHandle($group)->first()) {
+                throw new Exception('Group does not exist.');
+            }
+
+            return $this->is($group);
+        } elseif (strpos($name, 'can') !== true) {
+            // Remove 'can'
+            $permission = str_replace('can', '', $name);
+            // Lowercase
+            $permission = strtolower($permission);
+
+            if (!Permission::whereHandle($permission)->first()) {
+                throw new Exception('Permission does not exist.');
+            }
+
+            return $this->is($permission);
         }
 
-        // Remove 'is'
-        $group = str_replace('is', '', $name);
-        // Lowercase
-        $group = strtolower($group);
+        throw new BadMethodCallException("Method {$name} does not exist.");
 
-        if (!Group::whereHandle($group)->first()) {
-            throw new Exception('Group does not exist.');
-        }
 
-        return $this->is($group);
     }
 }
