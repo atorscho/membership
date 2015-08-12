@@ -141,11 +141,9 @@ trait UservelRelations
                 throw new Exception('Permission does not exist.');
             }
 
-            return $this->is($permission);
+            return $this->can($permission, $arguments[0]);
         }
 
         throw new BadMethodCallException("Method {$name} does not exist.");
-
-
     }
 }
