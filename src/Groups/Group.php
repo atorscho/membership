@@ -3,6 +3,7 @@
 namespace Atorscho\Uservel\Groups;
 
 use Atorscho\Uservel\Permissions\Permission;
+use Atorscho\Uservel\Permissions\PermissionAttachments;
 use Atorscho\Uservel\Permissions\PermissionsAttribute;
 use Atorscho\Uservel\Traits\HandleAttribute;
 use Illuminate\Database\Eloquent\Model;
@@ -12,12 +13,12 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection|\config('uservel.users.model[] $users
- * @property-write mixed $handle
- * @property integer $id 
- * @property string $name 
- * @property string $description 
- * @property string $prefix 
- * @property string $suffix 
+ * @property-write mixed                                                $handle
+ * @property integer                                                    $id
+ * @property string                                                     $name
+ * @property string                                                     $description
+ * @property string                                                     $prefix
+ * @property string                                                     $suffix
  * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\Atorscho\Uservel\Groups\Group whereHandle($value)
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Group extends Model
 {
-    use HandleAttribute, PermissionsAttribute;
+    use HandleAttribute, PermissionAttachments, PermissionsAttribute;
 
     /**
      * The attributes that are mass assignable.

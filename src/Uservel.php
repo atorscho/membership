@@ -5,6 +5,7 @@ namespace Atorscho\Uservel;
 use Atorscho\Uservel\Groups\Group;
 use Atorscho\Uservel\Permissions\Permission;
 use Auth;
+use BadMethodCallException;
 use Exception;
 use File;
 
@@ -220,6 +221,10 @@ class Uservel
      */
     public function __call($name, $arguments)
     {
+        if (strpos($name, 'create') !== false) {
+            throw new BadMethodCallException("Method {$name} does not exist.");
+        }
+
         // Remove 'create'
         $group = str_replace('create', '', $name);
         // Pluralize

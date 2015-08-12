@@ -14,7 +14,7 @@ trait HandleAttribute
         if ($handle) {
             $this->attributes['handle'] = str_slug($handle, '.');
         } else {
-            $this->attributes['handle'] = str_slug(isset($this->attributes['name']) ? $this->attributes['name'] : $this->attributes['title'], '.');
+            $this->attributes['handle'] = str_slug($this->attributes['name'], '.');
         }
     }
 }
