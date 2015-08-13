@@ -137,7 +137,6 @@ if (!function_exists('is_logged_in')) {
     }
 }
 
-
 if (!function_exists('user_avatar')) {
     /**
      * Return user's avatar if it exists, otherwise return the default one.

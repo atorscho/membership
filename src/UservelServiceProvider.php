@@ -67,7 +67,7 @@ class UservelServiceProvider extends ServiceProvider
             return "<?php if (current_user({$attribute})): ?>";
         });
         Blade::directive('endcurrent', function () {
-            return "<?php endif; ?>";
+            return '<?php endif; ?>';
         });
 
         // `current_user_is()` Blade Directive
@@ -75,7 +75,7 @@ class UservelServiceProvider extends ServiceProvider
             return "<?php if (current_user_is({$group})): ?>";
         });
         Blade::directive('endis', function () {
-            return "<?php endif; ?>";
+            return '<?php endif; ?>';
         });
 
         // `current_user_can()` Blade Directive
@@ -83,15 +83,15 @@ class UservelServiceProvider extends ServiceProvider
             return "<?php if (current_user_can({$permission}, {$model}, {$checkOwner})): ?>";
         });
         Blade::directive('endcan', function () {
-            return "<?php endif; ?>";
+            return '<?php endif; ?>';
         });
 
         // `is_logged_in()` Blade Directive
         Blade::directive('auth', function () {
-            return "<?php if (is_logged_in()): ?>";
+            return '<?php if (is_logged_in()): ?>';
         });
         Blade::directive('endauth', function () {
-            return "<?php endif; ?>";
+            return '<?php endif; ?>';
         });
 
         // `avatar_exists()` Blade Directive
@@ -99,7 +99,7 @@ class UservelServiceProvider extends ServiceProvider
             return "<?php if (avatar_exists($avatar)): ?>";
         });
         Blade::directive('endavatar', function () {
-            return "<?php endif; ?>";
+            return '<?php endif; ?>';
         });
     }
 }
