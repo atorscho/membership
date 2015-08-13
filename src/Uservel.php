@@ -49,22 +49,6 @@ class Uservel
     }
 
     /**
-     * Attach permission to the group.
-     *
-     * @param int|string|Group $group
-     * @param array|int|string $permissions
-     */
-    public function addGroupPermission($group, $permissions)
-    {
-        /** @var Group $group */
-        $group = $this->getGroupModel($group);
-
-        $permissions = $this->getPermissionIds($permissions);
-
-        $group->permissions()->attach($permissions);
-    }
-
-    /**
      * Return user instance or its model attribute.
      *
      * @param string|null $attribute

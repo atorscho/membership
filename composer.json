@@ -30,6 +30,9 @@
         "phpspec/phpspec": "~2.1"
     },
     "autoload": {
+        "files": [
+            "helpers/uservel.php"
+        ],
         "psr-4": {
             "Atorscho\\Uservel\\": "src/"
         }
