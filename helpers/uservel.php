@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Model;
+
 if (!function_exists('create_user')) {
     /**
      * Create a user and add him to a specified group.
@@ -107,19 +109,34 @@ if (!function_exists('current_user_can')) {
     /**
      * Check for user's or user group's permission.
      *
-     * @param array|string $can
+     * @param array|string $can        Permission handle or an array of handles.
+     * @param Model|null   $model      Check if model's user_id relation is current user's ID.
+     * @param bool         $checkOwner Set to false if you do not want to check model's ownership.
      *
      * @return bool
      */
-    function current_user_can($can)
+    function current_user_can($can, $model = null, $checkOwner = true)
     {
         if (Auth::guest()) {
             return false;
         }
 
-        return Auth::user()->can($can);
+        return Auth::user()->can($can, $model, $checkOwner);
     }
 }
+
+if (!function_exists('is_logged_in')) {
+    /**
+     * Return true if user is logged in.
+     *
+     * @return bool
+     */
+    function is_logged_in()
+    {
+        return Auth::check();
+    }
+}
+
 
 if (!function_exists('user_avatar')) {
     /**
@@ -139,11 +156,12 @@ if (!function_exists('avatar_exists')) {
     /**
      * Check if user's avatar exists.
      *
-     * @param string $avatar Avatar file name.
+     * @param Model|string|null $avatar Avatar file name or user's object.
+     *                                  If empty, checks for current user.
      *
      * @return bool
      */
-    function avatar_exists($avatar)
+    function avatar_exists($avatar = null)
     {
         return Uservel::avatarExists($avatar);
     }

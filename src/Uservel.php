@@ -8,6 +8,7 @@ use Auth;
 use BadMethodCallException;
 use Exception;
 use File;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Uservel
@@ -22,7 +23,7 @@ class Uservel
      * @param array      $attributes
      * @param int|string $group
      *
-     * @return object
+     * @return Model
      * @throws Exception
      */
     public function createUser(array $attributes, $group)
@@ -53,7 +54,7 @@ class Uservel
      *
      * @param string|null $attribute
      *
-     * @return object|string|bool
+     * @return Model|string|bool
      */
     public function currentUser($attribute = null)
     {
@@ -81,10 +82,10 @@ class Uservel
     {
         // If $avatar not specified, use authenticated user's one
         if (!$avatar && !is_null($avatar)) {
-            $avatar = Auth::user()->avatar;
+            $avatar = Auth::user()->{config('uservel.users.avatar.column')};
 
             // Check if $avatar field value exists
-            if (!Auth::user()->avatar) {
+            if (!Auth::user()->{config('uservel.users.avatar.column')}) {
                 return self::defaultAvatar();
             }
         }
@@ -101,12 +102,23 @@ class Uservel
     /**
      * Check if user's avatar exists.
      *
-     * @param string $avatar Avatar file name.
+     * @param Model|string|null $avatar Avatar file name or user's object.
+     *                                  If empty, checks for current user.
      *
      * @return bool
      */
-    public function avatarExists($avatar)
+    public function avatarExists($avatar = null)
     {
+        if (Auth::guest()) {
+            return false;
+        }
+
+        if (is_null($avatar)) {
+            $avatar = Auth::user()->{config('uservel.users.avatar.column')};
+        } elseif ($avatar instanceof Model) {
+            $avatar = $avatar->{config('uservel.users.avatar.column')};
+        }
+
         if (!$avatar || !File::exists(public_path(config('uservel.users.avatar.path') . $avatar))) {
             return false;
         }

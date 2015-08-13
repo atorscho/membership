@@ -3,8 +3,6 @@
 namespace Atorscho\Uservel;
 
 use Atorscho\Uservel\Console\InstallUservel;
-use Atorscho\Uservel\Uservel;
-use Atorscho\Uservel\UservelFacade;
 use Blade;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
@@ -19,8 +17,6 @@ class UservelServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        require __DIR__ . '/../helpers/uservel.php';
-
         // Publish Config
         $this->publishes([
             __DIR__ . '/../config/uservel.php' => config_path('uservel.php')
@@ -55,6 +51,55 @@ class UservelServiceProvider extends ServiceProvider
         $this->app->booting(function () {
             $loader = AliasLoader::getInstance();
             $loader->alias('Uservel', UservelFacade::class);
+        });
+
+        // Blade Directives
+        $this->bladeExtensions();
+    }
+
+    /**
+     * Register custom Blade directives.
+     */
+    protected function bladeExtensions()
+    {
+        // `current_user()` Blade Directive
+        Blade::directive('current', function ($attribute = null) {
+            return "<?php if (current_user({$attribute})): ?>";
+        });
+        Blade::directive('endcurrent', function () {
+            return "<?php endif; ?>";
+        });
+
+        // `current_user_is()` Blade Directive
+        Blade::directive('is', function ($group) {
+            return "<?php if (current_user_is({$group})): ?>";
+        });
+        Blade::directive('endis', function () {
+            return "<?php endif; ?>";
+        });
+
+        // `current_user_can()` Blade Directive
+        Blade::directive('can', function ($permission, $model = null, $checkOwner = true) {
+            return "<?php if (current_user_can({$permission}, {$model}, {$checkOwner})): ?>";
+        });
+        Blade::directive('endcan', function () {
+            return "<?php endif; ?>";
+        });
+
+        // `is_logged_in()` Blade Directive
+        Blade::directive('auth', function () {
+            return "<?php if (is_logged_in()): ?>";
+        });
+        Blade::directive('endauth', function () {
+            return "<?php endif; ?>";
+        });
+
+        // `avatar_exists()` Blade Directive
+        Blade::directive('avatar', function ($avatar = null) {
+            return "<?php if (avatar_exists($avatar)): ?>";
+        });
+        Blade::directive('endavatar', function () {
+            return "<?php endif; ?>";
         });
     }
 }

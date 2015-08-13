@@ -39,21 +39,21 @@ class DefaultGroupsSeeder extends Seeder
                 'name'        => 'Members',
                 'handle'      => 'members',
                 'description' => 'Default group for all registered users.',
-                'permissions' => 'show.users|show.groups|show.permissions'
+                'permissions' => 'view.users|view.groups|view.permissions'
             ],
             [
                 'id'          => 2,
                 'name'        => 'Moderators',
                 'handle'      => 'moderators',
                 'description' => 'Users with higher permissions and capabilities.',
-                'permissions' => 'show.users|edit.users|show.groups|edit.groups|show.permissions'
+                'permissions' => 'view.users|edit.users|view.groups|edit.groups|view.permissions'
             ],
             [
                 'id'          => 3,
                 'name'        => 'Administrators',
                 'handle'      => 'admins',
                 'description' => 'Users with all or almost all permissions.',
-                'permissions' => 'create.users|show.users|edit.users|delete.users|create.groups|show.groups|edit.groups|delete.groups|create.permissions|show.permissions|edit.permissions'
+                'permissions' => 'create.users|view.users|edit.users|delete.users|create.groups|view.groups|edit.groups|delete.groups|create.permissions|view.permissions|edit.permissions'
             ],
             [
                 'id'          => 4,

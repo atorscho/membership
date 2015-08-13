@@ -10,8 +10,12 @@ return [
 
     'users'       => [
         'avatar' => [
-            'path'    => 'uploads/images/avatars',
-            'default' => 'assets/img/misc/noavatar.png'
+            // DB column name
+            'column'  => 'avatar',
+            // Default avatar file
+            'default' => 'assets/img/misc/noavatar.png',
+            // Path to the folder with uploaded avatars
+            'path'    => 'uploads/images/avatars'
         ],
         'model'  => Atorscho\User::class,
         'table'  => 'users',
@@ -49,7 +53,7 @@ return [
             ]
         ]
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | Permissions

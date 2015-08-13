@@ -28,8 +28,8 @@ class DefaultPermissionsSeeder extends Seeder
                 'handle' => 'create.users'
             ],
             [
-                'name'   => 'Show Users',
-                'handle' => 'show.users'
+                'name'   => 'View Users',
+                'handle' => 'view.users'
             ],
             [
                 'name'   => 'Edit Users',
@@ -44,8 +44,8 @@ class DefaultPermissionsSeeder extends Seeder
                 'handle' => 'create.groups'
             ],
             [
-                'name'   => 'Show Groups',
-                'handle' => 'show.groups'
+                'name'   => 'View Groups',
+                'handle' => 'view.groups'
             ],
             [
                 'name'   => 'Edit Groups',
@@ -60,8 +60,8 @@ class DefaultPermissionsSeeder extends Seeder
                 'handle' => 'create.permissions'
             ],
             [
-                'name'   => 'Show Permissions',
-                'handle' => 'show.permissions'
+                'name'   => 'View Permissions',
+                'handle' => 'view.permissions'
             ],
             [
                 'name'   => 'Edit Permissions',

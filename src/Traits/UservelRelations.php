@@ -7,7 +7,9 @@ use Atorscho\Uservel\Groups\GroupAttachments;
 use Atorscho\Uservel\Permissions\Permission;
 use Atorscho\Uservel\Permissions\PermissionAttachments;
 use Atorscho\Uservel\Permissions\PermissionsAttribute;
+use Auth;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 trait UservelRelations
 {
@@ -61,12 +63,24 @@ trait UservelRelations
     /**
      * Check for user's or user group's permission.
      *
-     * @param array|string $can Permission handle or an array of handles.
+     * @param array|string $can        Permission handle or an array of handles.
+     * @param Model|null   $model      Check if model's user_id relation is current user's ID.
+     * @param bool         $checkOwner Set to false if you do not want to check model's ownership.
      *
      * @return bool
      */
-    public function can($can)
+    public function can($can, $model = null, $checkOwner = true)
     {
+        // If model is provided, check if current user can edit it
+        if (isset($model) && is_object($model)) {
+            // Check model's owner
+            if ($checkOwner && isset($model->user_id)) {
+                return $model->user_id == current_user('id');
+            }
+
+            return $this->can($can);
+        }
+
         // Ensure $can is always permission's ID
         if (!is_numeric($can) && is_string($can)) {
             $can = Permission::whereHandle($can)->first();
