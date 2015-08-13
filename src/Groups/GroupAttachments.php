@@ -16,7 +16,11 @@ trait GroupAttachments
             $groups = config('uservel.groups.default');
         }
 
-        $groups = (array) $groups;
+        if ($groups instanceof Group) {
+            $groups = [$groups];
+        } else {
+            $groups = (array) $groups;
+        }
 
         foreach ($groups as $group) {
             if ($group instanceof Group) {
@@ -37,7 +41,11 @@ trait GroupAttachments
      */
     public function removeGroup($groups)
     {
-        $groups = (array) $groups;
+        if ($groups instanceof Group) {
+            $groups = [$groups];
+        } else {
+            $groups = (array) $groups;
+        }
 
         foreach ($groups as $group) {
             if ($group instanceof Group) {

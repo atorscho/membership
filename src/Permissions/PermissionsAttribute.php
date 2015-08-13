@@ -4,8 +4,6 @@ namespace Atorscho\Uservel\Permissions;
 
 trait PermissionsAttribute
 {
-    use GrantPermissions;
-
     /**
      * Attach permissions.
      *
@@ -14,13 +12,13 @@ trait PermissionsAttribute
     public function setPermissionsAttribute($permissions)
     {
         if ($permissions == '*') {
-            $this->grantPermissions(Permission::lists('id')->all());
+            $this->addPermission(Permission::lists('id')->all());
 
             return;
         }
 
         $permissions = explode('|', $permissions);
 
-        $this->grantPermissions($permissions);
+        $this->addPermission($permissions);
     }
 }

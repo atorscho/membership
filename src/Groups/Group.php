@@ -6,6 +6,7 @@ use Atorscho\Uservel\Permissions\Permission;
 use Atorscho\Uservel\Permissions\PermissionAttachments;
 use Atorscho\Uservel\Permissions\PermissionsAttribute;
 use Atorscho\Uservel\Traits\HandleAttribute;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -71,5 +72,18 @@ class Group extends Model
     public function users()
     {
         return $this->belongsToMany(config('uservel.users.model'), 'user_groups');
+    }
+
+    /**
+     * Return only specific group members.
+     *
+     * @param Builder $query
+     * @param string        $group
+     *
+     * @return mixed
+     */
+    public function scopeOnly(Builder $query, $group)
+    {
+        return $query->whereHandle($group)->first()->users;
     }
 }

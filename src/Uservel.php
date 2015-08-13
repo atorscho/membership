@@ -9,6 +9,11 @@ use BadMethodCallException;
 use Exception;
 use File;
 
+/**
+ * Class Uservel
+ *
+ * @package Atorscho\Uservel
+ */
 class Uservel
 {
     /**
@@ -221,7 +226,7 @@ class Uservel
      */
     public function __call($name, $arguments)
     {
-        if (strpos($name, 'create') !== false) {
+        if (!str_contains($name, 'create')) {
             throw new BadMethodCallException("Method {$name} does not exist.");
         }
 

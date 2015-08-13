@@ -7,7 +7,6 @@ use Atorscho\Uservel\Groups\GroupAttachments;
 use Atorscho\Uservel\Permissions\Permission;
 use Atorscho\Uservel\Permissions\PermissionAttachments;
 use Atorscho\Uservel\Permissions\PermissionsAttribute;
-use BadMethodCallException;
 use Exception;
 
 trait UservelRelations
@@ -110,19 +109,19 @@ trait UservelRelations
     }
 
     /**
-     * Is triggered when invoking inaccessible methods in an object context.
+     * Handle dynamic method calls into the model.
      *
-     * @param $name      string
-     * @param $arguments array
+     * @param  string $method
+     * @param  array  $parameters
      *
      * @return mixed
      * @throws Exception
      */
-    public function __call($name, $arguments)
+    public function __call($method, $parameters)
     {
-        if (strpos($name, 'is') !== true) {
+        if (str_contains($method, 'is')) {
             // Remove 'is'
-            $group = str_replace('is', '', $name);
+            $group = str_replace('is', '', $method);
             // Lowercase
             $group = strtolower($group);
 
@@ -131,9 +130,9 @@ trait UservelRelations
             }
 
             return $this->is($group);
-        } elseif (strpos($name, 'can') !== true) {
+        } elseif (str_contains($method, 'can')) {
             // Remove 'can'
-            $permission = str_replace('can', '', $name);
+            $permission = str_replace('can', '', $method);
             // Lowercase
             $permission = strtolower($permission);
 
@@ -141,9 +140,15 @@ trait UservelRelations
                 throw new Exception('Permission does not exist.');
             }
 
-            return $this->can($permission, $arguments[0]);
+            return $this->can($permission, $parameters[0]);
         }
 
-        throw new BadMethodCallException("Method {$name} does not exist.");
+        if (in_array($method, ['increment', 'decrement'])) {
+            return call_user_func_array([$this, $method], $parameters);
+        }
+
+        $query = $this->newQuery();
+
+        return call_user_func_array([$query, $method], $parameters);
     }
 }

@@ -11,7 +11,11 @@ trait PermissionAttachments
      */
     public function addPermission($permissions)
     {
-        $permissions = (array) $permissions;
+        if ($permissions instanceof Permission) {
+            $permissions = [$permissions];
+        } else {
+            $permissions = (array) $permissions;
+        }
 
         foreach ($permissions as $permission) {
             if ($permission instanceof Permission) {
@@ -32,7 +36,11 @@ trait PermissionAttachments
      */
     public function removePermission($permissions)
     {
-        $permissions = (array) $permissions;
+        if ($permissions instanceof Permission) {
+            $permissions = [$permissions];
+        } else {
+            $permissions = (array) $permissions;
+        }
 
         foreach ($permissions as $permission) {
             if ($permission instanceof Permission) {
