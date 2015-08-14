@@ -1,6 +1,6 @@
 <?php
 
-namespace Atorscho\Uservel\Traits;
+namespace Atorscho\Uservel\Users;
 
 use Atorscho\Uservel\Groups\Group;
 use Atorscho\Uservel\Groups\GroupAttachments;

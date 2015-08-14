@@ -5,13 +5,6 @@ namespace Atorscho\Uservel\Traits;
 trait ConfigFormRequest
 {
     /**
-     * Configuration namespace.
-     *
-     * @var string
-     */
-    protected $namespace = '';
-
-    /**
      * Get a config value by its key using the proper namespace.
      * <br /><br />
      * E.g. "users.groups.name.min" => 4

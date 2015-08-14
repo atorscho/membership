@@ -9,7 +9,7 @@ return [
     */
 
     'users'       => [
-        'avatar' => [
+        'avatar'  => [
             // DB column name
             'column'  => 'avatar',
             // Default avatar file
@@ -17,8 +17,29 @@ return [
             // Path to the folder with uploaded avatars
             'path'    => 'uploads/images/avatars'
         ],
-        'model'  => Atorscho\User::class,
-        'table'  => 'users',
+        'model'   => Atorscho\User::class,
+        'perPage' => 10,
+        'rules'   => [
+            'username' => [
+                'required' => true,
+                'min'      => 3,
+                'max'      => 30
+            ],
+            'email'    => [
+                'required' => true,
+                'min'      => 3,
+                'max'      => 30
+            ],
+            'password' => [
+                'required' => true,
+                'min'      => 4,
+                'max'      => 30
+            ],
+            'avatar'   => [
+                'required' => false
+            ],
+        ],
+        'table'   => 'users'
     ],
 
     /*
@@ -32,24 +53,29 @@ return [
         'perPage' => 10,
         'rules'   => [
             'name'        => [
-                'min' => 3,
-                'max' => 30
+                'required' => true,
+                'min'      => 3,
+                'max'      => 30
             ],
             'handle'      => [
-                'min' => 3,
-                'max' => 30
+                'required' => false,
+                'min'      => 3,
+                'max'      => 30
             ],
             'description' => [
-                'min' => 0,
-                'max' => 255
+                'required' => false,
+                'min'      => 0,
+                'max'      => 255
             ],
             'prefix'      => [
-                'min' => 0,
-                'max' => 255
+                'required' => false,
+                'min'      => 0,
+                'max'      => 255
             ],
             'suffix'      => [
-                'min' => 0,
-                'max' => 255
+                'required' => false,
+                'min'      => 0,
+                'max'      => 255
             ]
         ]
     ],
@@ -64,12 +90,14 @@ return [
         'perPage' => 10,
         'rules'   => [
             'name'   => [
-                'min' => 3,
-                'max' => 30
+                'required' => true,
+                'min'      => 3,
+                'max'      => 30
             ],
             'handle' => [
-                'min' => 3,
-                'max' => 30
+                'required' => false,
+                'min'      => 3,
+                'max'      => 30
             ]
         ]
     ]
