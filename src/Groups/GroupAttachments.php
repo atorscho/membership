@@ -28,7 +28,7 @@ trait GroupAttachments
             if ($group instanceof Group) {
                 $group = $group->id;
             } elseif (!is_numeric($group)) {
-                $name = $group;
+                $name  = $group;
                 $group = Group::whereHandle($group)->first();
 
                 if (!$group) {
