@@ -2,6 +2,8 @@
 
 namespace Atorscho\Uservel\Groups;
 
+use Exception;
+
 trait GroupAttachments
 {
     /**
@@ -26,7 +28,14 @@ trait GroupAttachments
             if ($group instanceof Group) {
                 $group = $group->id;
             } elseif (!is_numeric($group)) {
-                $group = Group::whereHandle($group)->first()->id;
+                $name = $group;
+                $group = Group::whereHandle($group)->first();
+
+                if (!$group) {
+                    throw new Exception("Group [{$name}] does not exist.");
+                }
+
+                $group = $group->id;
             }
 
             // Attach the group

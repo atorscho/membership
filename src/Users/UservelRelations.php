@@ -13,6 +13,50 @@ use Illuminate\Database\Eloquent\Model;
 
 trait UservelRelations
 {
+    /**
+     * Handle dynamic method calls into the model.
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function __call($method, $parameters)
+    {
+        if (str_contains($method, 'is')) {
+            // Remove 'is'
+            $group = str_replace('is', '', $method);
+            // Lowercase
+            $group = strtolower($group);
+
+            if (!Group::whereHandle($group)->first()) {
+                throw new Exception('Group does not exist.');
+            }
+
+            return $this->is($group);
+        } elseif (str_contains($method, 'can')) {
+            // Remove 'can'
+            $permission = str_replace('can', '', $method);
+            // Lowercase
+            $permission = strtolower($permission);
+
+            if (!Permission::whereHandle($permission)->first()) {
+                throw new Exception('Permission does not exist.');
+            }
+
+            return $this->can($permission, $parameters[0]);
+        }
+
+        if (in_array($method, ['increment', 'decrement'])) {
+            return call_user_func_array([$this, $method], $parameters);
+        }
+
+        $query = $this->newQuery();
+
+        return call_user_func_array([$query, $method], $parameters);
+    }
+
     use GroupAttachments, PermissionAttachments, PermissionsAttribute;
 
     /**
@@ -120,49 +164,5 @@ trait UservelRelations
         // If found, return true
         // Otherwise return false
         return in_array($can, $permissions);
-    }
-
-    /**
-     * Handle dynamic method calls into the model.
-     *
-     * @param  string $method
-     * @param  array  $parameters
-     *
-     * @return mixed
-     * @throws Exception
-     */
-    public function __call($method, $parameters)
-    {
-        if (str_contains($method, 'is')) {
-            // Remove 'is'
-            $group = str_replace('is', '', $method);
-            // Lowercase
-            $group = strtolower($group);
-
-            if (!Group::whereHandle($group)->first()) {
-                throw new Exception('Group does not exist.');
-            }
-
-            return $this->is($group);
-        } elseif (str_contains($method, 'can')) {
-            // Remove 'can'
-            $permission = str_replace('can', '', $method);
-            // Lowercase
-            $permission = strtolower($permission);
-
-            if (!Permission::whereHandle($permission)->first()) {
-                throw new Exception('Permission does not exist.');
-            }
-
-            return $this->can($permission, $parameters[0]);
-        }
-
-        if (in_array($method, ['increment', 'decrement'])) {
-            return call_user_func_array([$this, $method], $parameters);
-        }
-
-        $query = $this->newQuery();
-
-        return call_user_func_array([$query, $method], $parameters);
     }
 }

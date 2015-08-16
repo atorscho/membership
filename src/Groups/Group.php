@@ -9,6 +9,8 @@ use Atorscho\Uservel\Traits\HandleAttribute;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+// todo - formatted name
+
 /**
  * Atorscho\Uservel\Groups\Group
  *

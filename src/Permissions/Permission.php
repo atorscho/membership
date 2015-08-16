@@ -4,6 +4,7 @@ namespace Atorscho\Uservel\Permissions;
 
 use Atorscho\Uservel\Groups\Group;
 use Atorscho\Uservel\Groups\GroupAttachments;
+use Atorscho\Uservel\Groups\GroupsAttribute;
 use Atorscho\Uservel\Traits\HandleAttribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,14 +22,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Permission extends Model
 {
-    use GroupAttachments, HandleAttribute;
+    use GroupAttachments, GroupsAttribute, HandleAttribute;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle'];
+    protected $fillable = ['name', 'handle', 'groups'];
 
     /**
      * Cast attributes to relevant types.
