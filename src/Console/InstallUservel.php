@@ -49,52 +49,86 @@ class InstallUservel extends Command
      */
     public function handle()
     {
-        $verbosityLevel = OutputInterface::VERBOSITY_VERBOSE;
-        $verbosity      = $this->getOutput()->getVerbosity();
-
         // Start progress bar
         $this->output->progressStart(self::STEPS);
 
         // 1. Publish configs and migrations
-        /*$this->callSilent('vendor:publish', [
-            '--provider' => UservelServiceProvider::class
-        ]);
-        if ($verbosity >= $verbosityLevel) {
-            $this->comment('1. Configuration and migrations files have been successfully published.');
-        }
+        $this->publishFiles();
         $this->output->progressAdvance();
 
         // 2. Run migrations
-        $this->callSilent('migrate');
-        if ($verbosity >= $verbosityLevel) {
-            $this->comment('2. All tables have been successfully migrated.');
-        }
+        $this->runMigrations();
         $this->output->progressAdvance();
 
         // 3. Add default permissions
-        $this->call('db:seed', [
-            '--class' => DefaultPermissionsSeeder::class
-        ]);
-        if ($verbosity >= $verbosityLevel) {
-            $this->comment('3. Default permissions have been added.');
-        }
+        $this->addDefaultPermissions();
         $this->output->progressAdvance();
 
         // 4. Add default groups
-        $this->call('db:seed', [
-            '--class' => DefaultGroupsSeeder::class
-        ]);
-        if ($verbosity >= $verbosityLevel) {
-            $this->comment('4. Default groups have been added.');
-        }
-        $this->output->progressAdvance();*/
+        $this->addDefaultGroups();
+        $this->output->progressAdvance();
 
         // 5. Ask for superuser credentials
         $this->createSuperuser();
+        $this->output->progressAdvance();
 
         $this->output->progressFinish();
 
         /*$this->info('Uservel has been successfully installed!');*/
+    }
+
+    /**
+     * Publish migration and configuration files.
+     */
+    protected function publishFiles()
+    {
+        $this->callSilent('vendor:publish', [
+            '--provider' => UservelServiceProvider::class
+        ]);
+
+        if ($this->verbosity() >= $this->minimumVerbosity()) {
+            $this->comment('1. Configuration and migrations files have been successfully published.');
+        }
+    }
+
+    /**
+     * Run migrations.
+     */
+    protected function runMigrations()
+    {
+        $this->callSilent('migrate');
+
+        if ($this->verbosity() >= $this->minimumVerbosity()) {
+            $this->comment('2. All tables have been successfully migrated.');
+        }
+    }
+
+    /**
+     * Add the default permissions to the DB.
+     */
+    protected function addDefaultPermissions()
+    {
+        $this->call('db:seed', [
+            '--class' => DefaultPermissionsSeeder::class
+        ]);
+
+        if ($this->verbosity() >= $this->minimumVerbosity()) {
+            $this->comment('3. Default permissions have been added.');
+        }
+    }
+
+    /**
+     * Add the default groups to the DB.
+     */
+    protected function addDefaultGroups()
+    {
+        $this->call('db:seed', [
+            '--class' => DefaultGroupsSeeder::class
+        ]);
+
+        if ($this->verbosity() >= $this->minimumVerbosity()) {
+            $this->comment('4. Default groups have been added.');
+        }
     }
 
     /**
@@ -116,9 +150,13 @@ class InstallUservel extends Command
 
         $attributes = compact('username', 'email', 'password') + ['groups' => 'superadmins'];
 
-        dd($attributes);
+        $user = User::create($attributes);
 
-        return User::create($attributes);
+        if ($this->verbosity() >= $this->minimumVerbosity()) {
+            $this->comment('5. Superuser has been successfully created.');
+        }
+
+        return $user;
     }
 
     /**
@@ -138,5 +176,23 @@ class InstallUservel extends Command
         }
 
         return $password;
+    }
+
+    /**
+     * Get the minimum verbosity level.
+     *
+     * @return int
+     */
+    protected function minimumVerbosity()
+    {
+        return OutputInterface::VERBOSITY_VERBOSE;
+    }
+
+    /**
+     * @return int
+     */
+    protected function verbosity()
+    {
+        return $this->getOutput()->getVerbosity();
     }
 }
