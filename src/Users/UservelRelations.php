@@ -6,13 +6,15 @@ use Atorscho\Uservel\Groups\Group;
 use Atorscho\Uservel\Groups\GroupAttachments;
 use Atorscho\Uservel\Permissions\Permission;
 use Atorscho\Uservel\Permissions\PermissionAttachments;
-use Atorscho\Uservel\Permissions\PermissionsAttribute;
-use Auth;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 trait UservelRelations
 {
+    use GroupAttachments, PermissionAttachments {
+        GroupAttachments::create insteadof PermissionAttachments;
+    };
+
     /**
      * Handle dynamic method calls into the model.
      *
@@ -56,8 +58,6 @@ trait UservelRelations
 
         return call_user_func_array([$query, $method], $parameters);
     }
-
-    use GroupAttachments, PermissionAttachments, PermissionsAttribute;
 
     /**
      * User's groups.

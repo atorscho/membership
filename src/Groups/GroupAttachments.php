@@ -2,20 +2,32 @@
 
 namespace Atorscho\Uservel\Groups;
 
+use Atorscho\Uservel\Traits\CreateModel;
 use Exception;
 
 trait GroupAttachments
 {
+    use CreateModel;
+
     /**
      * Add user or permission to the group.
      *
      * @param int|string|Group|null $groups May be group ID, handle or model object.
+     *
+     * @throws Exception
      */
     public function addGroup($groups = null)
     {
         // If not specified, use the default one
         if (!$groups) {
             $groups = config('uservel.groups.default');
+        }
+
+        // If $groups is '*', attach to all groups
+        if ($groups == ['*']) {
+            $this->addGroup(Group::lists('id')->all());
+
+            return;
         }
 
         if ($groups instanceof Group) {

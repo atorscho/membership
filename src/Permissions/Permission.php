@@ -4,7 +4,6 @@ namespace Atorscho\Uservel\Permissions;
 
 use Atorscho\Uservel\Groups\Group;
 use Atorscho\Uservel\Groups\GroupAttachments;
-use Atorscho\Uservel\Groups\GroupsAttribute;
 use Atorscho\Uservel\Traits\HandleAttribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Permission extends Model
 {
-    use GroupAttachments, GroupsAttribute, HandleAttribute;
+    use GroupAttachments, HandleAttribute;
 
     /**
      * The attributes that are mass assignable.

@@ -8,6 +8,8 @@ use Atorscho\Uservel\UservelServiceProvider;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
+// todo - Ask to create a superuser
+
 class InstallUservel extends Command
 {
     /**
