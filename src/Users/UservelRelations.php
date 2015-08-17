@@ -13,7 +13,7 @@ trait UservelRelations
 {
     use GroupAttachments, PermissionAttachments {
         GroupAttachments::create insteadof PermissionAttachments;
-    };
+    }
 
     /**
      * Handle dynamic method calls into the model.

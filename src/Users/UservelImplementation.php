@@ -88,11 +88,4 @@ interface UservelImplementation
      * Remove all permissions from a user or group.
      */
     public function removeAllPermissions();
-
-    /**
-     * Attach permissions.
-     *
-     * @param string $permissions Separate permissions with a pipe "|".
-     */
-    public function setPermissionsAttribute($permissions);
 }
