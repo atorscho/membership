@@ -1,6 +1,6 @@
 {
-    "name": "atorscho/uservel",
-    "description": "Powerful user management system with groups and permissions for Laravel 5.",
+    "name": "atorscho/membership",
+    "description": "Powerful user management system with groups and permissions for Laravel 5.1.11+.",
     "keywords": [
         "users",
         "groups",
