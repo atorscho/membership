@@ -1,14 +1,13 @@
 <?php
 
-namespace Atorscho\Uservel;
+namespace Atorscho\Membership;
 
-use Atorscho\Uservel\Console\InstallUservel;
 use Blade;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
-class UservelServiceProvider extends ServiceProvider
+class MembershipServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -19,9 +18,9 @@ class UservelServiceProvider extends ServiceProvider
     {
         // Publish Config
         $this->publishes([
-            __DIR__ . '/../config/uservel.php' => config_path('uservel.php')
+            __DIR__ . '/../config/membership.php' => config_path('membership.php')
         ], 'config');
-        $this->mergeConfigFrom(__DIR__ . '/../config/uservel.php', 'uservel');
+        $this->mergeConfigFrom(__DIR__ . '/../config/membership.php', 'membership');
 
         // Publish Migrations
         $this->publishes([
@@ -37,21 +36,21 @@ class UservelServiceProvider extends ServiceProvider
     public function register()
     {
         // Uservel Install Command
-        $this->app['command.uservel.install'] = $this->app->share(function (Application $app) {
-            return $app->make(InstallUservel::class);
-        });
-        $this->commands('command.uservel.install');
+        //$this->app['command.membership.install'] = $this->app->share(function (Application $app) {
+        //    return $app->make(InstallUservel::class);
+        //});
+        //$this->commands('command.membership.install');
 
         // Facade
-        $this->app->bind('uservel', function (Application $app) {
-            return $app->make(Uservel::class);
-        });
+        //$this->app->bind('membership', function (Application $app) {
+        //    return $app->make(Uservel::class);
+        //});
 
         // Alias
-        $this->app->booting(function () {
-            $loader = AliasLoader::getInstance();
-            $loader->alias('Uservel', UservelFacade::class);
-        });
+        //$this->app->booting(function () {
+        //    $loader = AliasLoader::getInstance();
+        //    $loader->alias('Uservel', UservelFacade::class);
+        //});
 
         // Blade Directives
         $this->bladeExtensions();
@@ -78,19 +77,11 @@ class UservelServiceProvider extends ServiceProvider
             return '<?php endif; ?>';
         });
 
-        // `current_user_can()` Blade Directive
-        Blade::directive('can', function ($permission, $model = null, $checkOwner = true) {
-            return "<?php if (current_user_can({$permission}, {$model}, {$checkOwner})): ?>";
-        });
-        Blade::directive('endcan', function () {
-            return '<?php endif; ?>';
-        });
-
         // `is_logged_in()` Blade Directive
-        Blade::directive('auth', function () {
+        Blade::directive('logged', function () {
             return '<?php if (is_logged_in()): ?>';
         });
-        Blade::directive('endauth', function () {
+        Blade::directive('endlogged', function () {
             return '<?php endif; ?>';
         });
 

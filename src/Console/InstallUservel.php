@@ -25,7 +25,7 @@ class InstallUservel extends Command
      *
      * @var string
      */
-    protected $signature = 'uservel:install';
+    protected $signature = 'membership:install';
 
     /**
      * The console command description.

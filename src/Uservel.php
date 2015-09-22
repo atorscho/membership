@@ -32,7 +32,7 @@ class Uservel
             throw new Exception('Parameter $attributes must be specified.');
         }
 
-        $user = config('uservel.users.model');
+        $user = config('membership.users.model');
 
         $user = $user::create($attributes);
 
@@ -82,17 +82,17 @@ class Uservel
     {
         // If $avatar not specified, use authenticated user's one
         if (!$avatar && !is_null($avatar)) {
-            $avatar = Auth::user()->{config('uservel.users.avatar.column')};
+            $avatar = Auth::user()->{config('membership.users.avatar.column')};
 
             // Check if $avatar field value exists
-            if (!Auth::user()->{config('uservel.users.avatar.column')}) {
+            if (!Auth::user()->{config('membership.users.avatar.column')}) {
                 return self::defaultAvatar();
             }
         }
 
         // Check for avatar file existance
         if ($this->avatarExists($avatar)) {
-            return asset(config('uservel.users.avatar.path') . $avatar);
+            return asset(config('membership.users.avatar.path') . $avatar);
         }
 
         // If does not exist, return the default one
@@ -114,12 +114,12 @@ class Uservel
         }
 
         if (is_null($avatar)) {
-            $avatar = Auth::user()->{config('uservel.users.avatar.column')};
+            $avatar = Auth::user()->{config('membership.users.avatar.column')};
         } elseif ($avatar instanceof Model) {
-            $avatar = $avatar->{config('uservel.users.avatar.column')};
+            $avatar = $avatar->{config('membership.users.avatar.column')};
         }
 
-        if (!$avatar || !File::exists(public_path(config('uservel.users.avatar.path') . $avatar))) {
+        if (!$avatar || !File::exists(public_path(config('membership.users.avatar.path') . $avatar))) {
             return false;
         }
 
@@ -136,10 +136,10 @@ class Uservel
     protected function defaultAvatar($path = false)
     {
         if ($path) {
-            return public_path(config('uservel.users.avatar.default'));
+            return public_path(config('membership.users.avatar.default'));
         }
 
-        return asset(config('uservel.users.avatar.default'));
+        return asset(config('membership.users.avatar.default'));
     }
 
     /**

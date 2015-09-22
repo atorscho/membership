@@ -13,6 +13,6 @@ class UservelFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'uservel';
+        return 'membership';
     }
 }

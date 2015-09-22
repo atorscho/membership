@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * Atorscho\Uservel\Groups\Group
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection|\config('uservel.users.model[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\config('membership.users.model[] $users
  * @property-write mixed                                                $handle
  * @property int                                                        $id
  * @property string                                                     $name
@@ -72,7 +72,7 @@ class Group extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(config('uservel.users.model'), 'user_groups');
+        return $this->belongsToMany(config('membership.users.model'), 'user_groups');
     }
 
     /**

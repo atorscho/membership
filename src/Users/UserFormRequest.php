@@ -14,7 +14,7 @@ class UserFormRequest extends Request
      *
      * @var string
      */
-    protected $namespace = 'uservel.users.rules';
+    protected $namespace = 'membership.users.rules';
 
     /**
      * Determine if the user is authorized to make this request.

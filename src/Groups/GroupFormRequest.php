@@ -13,7 +13,7 @@ class GroupFormRequest
      *
      * @var string
      */
-    protected $namespace = 'uservel.groups.rules';
+    protected $namespace = 'membership.groups.rules';
 
     /**
      * Determine if the user is authorized to make this request.

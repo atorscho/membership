@@ -1,16 +1,16 @@
 {
     "name": "atorscho/membership",
-    "description": "Powerful user management system with groups and permissions for Laravel 5.1.11+.",
+    "description": "User management system with roles and capabilites for Laravel 5.1.11+.",
     "keywords": [
+        "membership",
         "users",
+        "roles",
+        "capabilities",
         "groups",
         "permissions",
-        "laravel",
-        "management",
-        "roles",
-        "capabilities"
+        "laravel"
     ],
-    "homepage": "https://github.com/atorscho/uservel",
+    "homepage": "https://github.com/atorscho/membership",
     "license": "MIT",
     "authors": [
         {
@@ -22,7 +22,7 @@
     ],
     "require": {
         "php" : ">=5.5.9",
-        "illuminate/support": "5.0 - 5.1"
+        "illuminate/support": "^5.1"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
@@ -31,15 +31,15 @@
     },
     "autoload": {
         "files": [
-            "helpers/uservel.php"
+            "helpers/membership.php"
         ],
         "psr-4": {
-            "Atorscho\\Uservel\\": "src/"
+            "Atorscho\\Membership\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Atorscho\\Uservel\\Tests\\": "tests"
+            "Atorscho\\Membership\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -20,7 +20,7 @@ trait GroupAttachments
     {
         // If not specified, use the default one
         if (!$groups) {
-            $groups = config('uservel.groups.default');
+            $groups = config('membership.groups.default');
         }
 
         // If $groups is '*', attach to all groups
