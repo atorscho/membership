@@ -1,13 +1,14 @@
 {
     "name": "atorscho/membership",
-    "description": "User management system with roles and capabilites for Laravel 5.1.11+.",
+    "description": "Role-based access control system for Laravel 5.1.11+.",
     "keywords": [
         "membership",
         "users",
-        "roles",
-        "capabilities",
         "groups",
         "permissions",
+        "roles",
+        "capabilities",
+        "abilities",
         "laravel"
     ],
     "homepage": "https://github.com/atorscho/membership",

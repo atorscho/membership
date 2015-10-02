@@ -4,12 +4,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | General Settings
+    |--------------------------------------------------------------------------
+    */
+
+    'handle_separator' => '.',
+
+    /*
+    |--------------------------------------------------------------------------
     | Users
     |--------------------------------------------------------------------------
     */
 
-    'users'       => [
-        'avatar'  => [
+    'users' => [
+        'avatar'   => [
             // DB column name
             'column'  => 'avatar',
             // Default avatar file
@@ -17,29 +25,9 @@ return [
             // Path to the folder with uploaded avatars
             'path'    => 'uploads/images/avatars'
         ],
-        'model'   => Atorscho\User::class,
-        'perPage' => 10,
-        'rules'   => [
-            'username' => [
-                'required' => true,
-                'min'      => 3,
-                'max'      => 30
-            ],
-            'email'    => [
-                'required' => true,
-                'min'      => 3,
-                'max'      => 30
-            ],
-            'password' => [
-                'required' => true,
-                'min'      => 4,
-                'max'      => 30
-            ],
-            'avatar'   => [
-                'required' => false
-            ],
-        ],
-        'table'   => 'users'
+        'model'    => Atorscho\User::class,
+        'per_page' => 10,
+        'table'    => 'users'
     ],
 
     /*
@@ -48,36 +36,9 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'groups'      => [
-        'default' => 1,
-        'perPage' => 10,
-        'rules'   => [
-            'name'        => [
-                'required' => true,
-                'min'      => 3,
-                'max'      => 30
-            ],
-            'handle'      => [
-                'required' => false,
-                'min'      => 3,
-                'max'      => 30
-            ],
-            'description' => [
-                'required' => false,
-                'min'      => 0,
-                'max'      => 255
-            ],
-            'prefix'      => [
-                'required' => false,
-                'min'      => 0,
-                'max'      => 255
-            ],
-            'suffix'      => [
-                'required' => false,
-                'min'      => 0,
-                'max'      => 255
-            ]
-        ]
+    'groups' => [
+        'default'  => 1,
+        'per_page' => 10,
     ],
 
     /*
@@ -87,19 +48,7 @@ return [
     */
 
     'permissions' => [
-        'perPage' => 10,
-        'rules'   => [
-            'name'   => [
-                'required' => true,
-                'min'      => 3,
-                'max'      => 30
-            ],
-            'handle' => [
-                'required' => false,
-                'min'      => 3,
-                'max'      => 30
-            ]
-        ]
-    ]
+        'per_page' => 10
+    ],
 
 ];

@@ -20,26 +20,20 @@ class CreatePermissionsTable extends Migration
 
         Schema::create('group_permissions', function (Blueprint $table) {
             $table->integer('group_id')->unsigned()->index();
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->integer('permission_id')->unsigned()->index();
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
 
-            $table->unique([
-                'group_id',
-                'permission_id'
-            ]);
+            $table->primary(['group_id', 'permission_id']);
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
         });
 
         Schema::create('user_permissions', function (Blueprint $table) {
             $table->integer('permission_id')->unsigned()->index();
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on(config('membership.users.table'))->onDelete('cascade');
 
-            $table->unique([
-                'permission_id',
-                'user_id'
-            ]);
+            $table->primary(['permission_id', 'user_id']);
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on(config('membership.users.table'))->onDelete('cascade');
         });
     }
 
