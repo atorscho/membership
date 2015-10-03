@@ -25,7 +25,7 @@ return [
             // Path to the folder with uploaded avatars
             'path'    => 'uploads/images/avatars'
         ],
-        'model'    => Atorscho\User::class,
+        'model'    => App\User::class,
         'per_page' => 10,
         'table'    => 'users'
     ],
@@ -38,7 +38,7 @@ return [
 
     'groups' => [
         'default'          => 1,
-        'handle_separator' => '-',
+        'handle_separator' => '-', // except a comma "," and a pipe "|"
         'per_page'         => 10
     ],
 
@@ -49,7 +49,7 @@ return [
     */
 
     'permissions' => [
-        'handle_separator' => '.',
+        'handle_separator' => '.', // except a comma "," and a pipe "|"
         'per_page'         => 10
     ],
 
