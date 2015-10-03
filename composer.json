@@ -1,6 +1,6 @@
 {
     "name": "atorscho/membership",
-    "description": "Role-based access control system for Laravel 5.1.11+.",
+    "description": "Role-based access control system for Laravel 5.1.",
     "keywords": [
         "membership",
         "users",
@@ -36,11 +36,6 @@
         ],
         "psr-4": {
             "Atorscho\\Membership\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Atorscho\\Membership\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Atorscho\Membership\Permissions;
+
 use Illuminate\Database\Seeder;
 
 class DefaultPermissions extends Seeder
@@ -11,9 +13,20 @@ class DefaultPermissions extends Seeder
      */
     public function run()
     {
-        //
+        Permission::truncate();
+
+        $permissions = $this->permissions();
+
+        foreach ($permissions as $permission) {
+            Permission::create($permission);
+        }
     }
 
+    /**
+     * The array of permissions.
+     *
+     * @return array
+     */
     protected function permissions()
     {
         return [
@@ -26,8 +39,16 @@ class DefaultPermissions extends Seeder
                 'handle' => 'edit.users'
             ],
             [
+                'name'   => 'Users: Edit Own Profile',
+                'handle' => 'edit.own.profile'
+            ],
+            [
                 'name'   => 'Users: Delete',
                 'handle' => 'delete.users'
+            ],
+            [
+                'name'   => 'Users: Assign Groups',
+                'handle' => 'assign.users.groups'
             ],
             [
                 'name'   => 'Users: Assign Permissions',

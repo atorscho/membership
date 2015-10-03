@@ -2,12 +2,17 @@
 
 namespace Atorscho\Membership\Groups;
 
+use Atorscho\Membership\Permissions\ManagePermissions;
 use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+// Todo - Get formatted name.
+
 class Group extends Model
 {
+    use ManagePermissions;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,7 +37,7 @@ class Group extends Model
     public $timestamps = false;
 
     /**
-     * Role's permissions.
+     * Group's permissions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -42,13 +47,13 @@ class Group extends Model
     }
 
     /**
-     * Role's users.
+     * Group's users.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
-        return $this->belongsToMany(config('uservel.users.model'), 'user_groups');
+        return $this->belongsToMany(config('membership.users.model'), 'user_groups');
     }
 
     /**
@@ -71,6 +76,9 @@ class Group extends Model
      */
     public function setHandleAttribute($handle)
     {
-        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.handle_separator'));
+        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.groups.handle_separator'));
     }
+
+    // TODO - Move to a trait (?)
+
 }
