@@ -2,77 +2,6 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-if (!function_exists('create_user')) {
-    /**
-     * Create a user and add him to a specified group.
-     *
-     * @param array      $attributes
-     * @param int|string $group
-     *
-     * @return object
-     */
-    function create_user(array $attributes, $group = 'members')
-    {
-        return Uservel::createUser($attributes, $group);
-    }
-}
-
-if (!function_exists('create_member')) {
-    /**
-     * Create a member.
-     *
-     * @param array $attributes
-     *
-     * @return object
-     */
-    function create_member(array $attributes)
-    {
-        return Uservel::createMember($attributes);
-    }
-}
-
-if (!function_exists('create_moderator')) {
-    /**
-     * Create a moderator.
-     *
-     * @param array $attributes
-     *
-     * @return object
-     */
-    function create_moderator(array $attributes)
-    {
-        return Uservel::createModerator($attributes);
-    }
-}
-
-if (!function_exists('create_admin')) {
-    /**
-     * Create an administrator.
-     *
-     * @param array $attributes
-     *
-     * @return object
-     */
-    function create_admin(array $attributes)
-    {
-        return Uservel::createAdmin($attributes);
-    }
-}
-
-if (!function_exists('create_superadmin')) {
-    /**
-     * Create an superadministrator.
-     *
-     * @param array $attributes
-     *
-     * @return object
-     */
-    function create_superadmin(array $attributes)
-    {
-        return Uservel::createSuperadmin($attributes);
-    }
-}
-
 if (!function_exists('current_user')) {
     /**
      * Return user instance or its model attribute.
@@ -83,7 +12,7 @@ if (!function_exists('current_user')) {
      */
     function current_user($attribute = null)
     {
-        return Uservel::currentUser($attribute);
+        //return Uservel::currentUser($attribute);
     }
 }
 

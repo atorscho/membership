@@ -1,6 +1,6 @@
 <?php
 
-namespace Atorscho\Membership\Traits;
+namespace Atorscho\Membership\Users;
 
 use Atorscho\Membership\Exceptions\IncorrectParameterType;
 use Atorscho\Membership\Groups\Group;
@@ -10,7 +10,7 @@ use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-trait MembershipSetup
+trait UserMembership
 {
     use ManageGroups, ManagePermissions;
 
@@ -152,5 +152,14 @@ trait MembershipSetup
         }
 
         return (bool) array_intersect($this->allPermissions()->lists('handle')->all(), $permissions);
+    }
+
+    /**
+     * Set user's highest level group as its primary group.
+     */
+    public function setPrimaryGroup()
+    {
+        $this->primary_group_id = $this->groups->max('id');
+        $this->save();
     }
 }

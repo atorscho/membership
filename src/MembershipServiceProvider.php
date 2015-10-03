@@ -41,12 +41,12 @@ class MembershipServiceProvider extends ServiceProvider
         //});
         //$this->commands('command.membership.install');
 
-        // Facade
-        //$this->app->bind('membership', function (Application $app) {
-        //    return $app->make(Uservel::class);
-        //});
+        // Register Membership
+        $this->app->singleton('membership', function (Application $app) {
+            return $app->make(Membership::class);
+        });
 
-        // Alias
+        // Facade
         //$this->app->booting(function () {
         //    $loader = AliasLoader::getInstance();
         //    $loader->alias('Uservel', UservelFacade::class);
