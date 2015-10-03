@@ -2,10 +2,13 @@
 
 namespace Atorscho\Membership\Traits;
 
+use Atorscho\Membership\Exceptions\IncorrectParameterType;
 use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Groups\ManageGroups;
 use Atorscho\Membership\Permissions\ManagePermissions;
 use Atorscho\Membership\Permissions\Permission;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 trait MembershipSetup
 {
@@ -29,6 +32,35 @@ trait MembershipSetup
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'user_permissions');
+    }
+
+    /**
+     * Get all user's groups permissions.
+     *
+     * @return Collection
+     */
+    public function groupsPermissions()
+    {
+        $permissions = [];
+        $groups      = $this->groups;
+
+        foreach ($groups as $group) {
+            foreach ($group->permissions as $permission) {
+                $permissions[$permission->id] = $permission;
+            }
+        }
+
+        return Collection::make($permissions);
+    }
+
+    /**
+     * Retrieve all user's own permissions and its groups permissions.
+     *
+     * @return Collection
+     */
+    public function allPermissions()
+    {
+        return $this->permissions->merge($this->groupsPermissions());
     }
 
     /**
@@ -63,10 +95,62 @@ trait MembershipSetup
         }, $groups);
 
         // Check ALL groups
+        $userGroups = $this->groups->lists('handle')->all();
+
         if ($strict) {
-            return count(array_intersect($this->groups->lists('handle')->all(), $groups)) == count($groups);
+            return count(array_intersect($userGroups, $groups)) == count($groups);
         }
 
-        return (bool) array_intersect($this->groups->lists('handle')->all(), $groups);
+        return (bool) array_intersect($userGroups, $groups);
+    }
+
+    /**
+     * Determine if a user has permission to perform some action.
+     *
+     * @param array|string $permissions Comma or pipe separated list of permission handles,
+     *                                  or an array of handles.
+     * @param object       $model       [Optional]
+     * @param string       $column      [Optional]
+     *
+     * @return bool
+     * @throws IncorrectParameterType
+     */
+    public function can($permissions, $model = null, $column = null)
+    {
+        // Check if user can access the model
+        if ($model) {
+            if (!$model instanceof Model) {
+                throw new IncorrectParameterType('Parameter [$model] must be an instance of the Eloquent Model class.');
+            }
+
+            if (!$column) {
+                $column = 'user_id';
+            }
+
+            return $this->can($permissions) && $model->{$column} == $this->id;
+        }
+
+        $strict = true;
+
+        // Check if $permission is a "|" separated list
+        if (is_string($permissions) && str_contains($permissions, '|')) {
+            // Strict search is off, check AT LEAST ONE permission
+            $strict      = false;
+            $permissions = explode('|', $permissions);
+        } // Or if $permission is a "," separated list
+        elseif (is_string($permissions) && str_contains($permissions, ',')) {
+            // Strict search is on, check ALL permissions
+            $permissions = explode(',', $permissions);
+        }
+
+        // Ensure $permission is always an array
+        $permissions = (array) $permissions;
+
+        // Check ALL permissions
+        if ($strict) {
+            return count(array_intersect($this->allPermissions()->lists('handle')->all(), $permissions)) == count($permissions);
+        }
+
+        return (bool) array_intersect($this->allPermissions()->lists('handle')->all(), $permissions);
     }
 }
