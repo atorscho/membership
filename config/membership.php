@@ -18,8 +18,6 @@ return [
 
     'users' => [
         'avatar'   => [
-            // DB column name
-            'column'  => 'avatar',
             // Default avatar file
             'default' => 'assets/img/misc/noavatar.png',
             // Path to the folder with uploaded avatars

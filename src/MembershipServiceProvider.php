@@ -47,10 +47,10 @@ class MembershipServiceProvider extends ServiceProvider
         });
 
         // Facade
-        //$this->app->booting(function () {
-        //    $loader = AliasLoader::getInstance();
-        //    $loader->alias('Uservel', UservelFacade::class);
-        //});
+        $this->app->booting(function () {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('Membership', MembershipFacade::class);
+        });
 
         // Blade Directives
         $this->bladeExtensions();
@@ -61,9 +61,10 @@ class MembershipServiceProvider extends ServiceProvider
      */
     protected function bladeExtensions()
     {
+        // Todo - Review this directive.
         // `current_user()` Blade Directive
         Blade::directive('current', function ($attribute = null) {
-            return "<?php if (current_user({$attribute})): ?>";
+            return "<?php if (user({$attribute})): ?>";
         });
         Blade::directive('endcurrent', function () {
             return '<?php endif; ?>';
@@ -78,10 +79,10 @@ class MembershipServiceProvider extends ServiceProvider
         });
 
         // `is_logged_in()` Blade Directive
-        Blade::directive('logged', function () {
+        Blade::directive('check', function () {
             return '<?php if (is_logged_in()): ?>';
         });
-        Blade::directive('endlogged', function () {
+        Blade::directive('endcheck', function () {
             return '<?php endif; ?>';
         });
 

@@ -7,18 +7,16 @@ use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-// Todo - Get formatted name.
-
 class Group extends Model
 {
     use ManagePermissions;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are protected from mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle', 'description', 'prefix', 'suffix'];
+    protected $guarded = ['id'];
 
     /**
      * Cast attributes to relevant types.
@@ -57,19 +55,6 @@ class Group extends Model
     }
 
     /**
-     * Return only specific group members.
-     *
-     * @param Builder $query
-     * @param string  $group
-     *
-     * @return mixed
-     */
-    public function scopeOnly(Builder $query, $group)
-    {
-        return $query->whereHandle($group)->first()->users;
-    }
-
-    /**
      * Ensure the handle attribute is always in a correct format.
      *
      * @param string $handle
@@ -78,7 +63,4 @@ class Group extends Model
     {
         $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.groups.handle_separator'));
     }
-
-    // TODO - Move to a trait (?)
-
 }

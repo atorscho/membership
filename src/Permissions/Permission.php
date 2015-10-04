@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are protected from mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle'];
+    protected $guarded = ['id'];
 
     /**
      * Cast attributes to relevant types.

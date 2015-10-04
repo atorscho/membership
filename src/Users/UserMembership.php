@@ -15,6 +15,16 @@ trait UserMembership
     use ManageGroups, ManagePermissions;
 
     /**
+     * User's primary group.
+     *
+     * @return mixed
+     */
+    public function primaryGroup()
+    {
+        return $this->belongsTo(Group::class, 'primary_group_id');
+    }
+
+    /**
      * User's groups.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -152,6 +162,11 @@ trait UserMembership
         }
 
         return (bool) array_intersect($this->allPermissions()->lists('handle')->all(), $permissions);
+    }
+
+    public function avatar()
+    {
+        return \Membership::avatar($this);
     }
 
     /**

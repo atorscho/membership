@@ -24,15 +24,17 @@ class Membership
     /**
      * Get currently logged in user instance or its attribute value.
      *
-     * @param string|null $attribute
+     * @param string|null $attribute User column name.
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function currentUser($attribute = null)
     {
-        $class = config('membership.users.model');
+        if (auth()->guest()) {
+            return null;
+        }
 
-        $user = $class::with('groups', 'permissions')->findOrFail($this->auth->id());
+        $user = $this->getCurrentUserInstance();
 
         if (!$attribute) {
             return $user;
@@ -41,5 +43,42 @@ class Membership
         return $user->{$attribute} ?: null;
     }
 
+    /**
+     * Determine if the authenticated user's attribute is not empty.
+     *
+     * @param string $attribute
+     *
+     * @return bool
+     */
+    public function currentUserHas($attribute)
+    {
+        return auth()->guest() && $this->getCurrentUserInstance()->{$attribute};
+    }
 
+    public function avatar($user = null)
+    {
+        return asset($this->getAvatarPath() . $user->avatar);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAvatarPath()
+    {
+        return trim(config('membership.users.avatar.path', " \t\n\r\0\x0B\/")) . '/';
+    }
+
+    /**
+     *
+     *
+     * @return object
+     */
+    protected function getCurrentUserInstance()
+    {
+        $class = config('membership.users.model');
+
+        $user = $class::with('groups', 'permissions')->findOrFail($this->auth->id());
+
+        return $user;
+    }
 }
