@@ -9,6 +9,7 @@ use Atorscho\Membership\Permissions\ManagePermissions;
 use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Membership;
 
 trait UserMembership
 {
@@ -164,9 +165,14 @@ trait UserMembership
         return (bool) array_intersect($this->allPermissions()->lists('handle')->all(), $permissions);
     }
 
+    /**
+     * Get user's avatar. If none found, return the default one.
+     *
+     * @return string
+     */
     public function avatar()
     {
-        return \Membership::avatar($this);
+        return Membership::avatar($this);
     }
 
     /**

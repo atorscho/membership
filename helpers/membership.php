@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
+use Atorscho\Membership\Exceptions\IncorrectParameterType;
 
 if (!function_exists('current_user')) {
     /**
@@ -12,45 +12,41 @@ if (!function_exists('current_user')) {
      */
     function current_user($attribute = null)
     {
-        //return Uservel::currentUser($attribute);
+        return Membership::currentUser($attribute);
     }
 }
 
 if (!function_exists('current_user_is')) {
     /**
-     * Check if user is in specified group(s).
+     * Check the user belonging to a group.
      *
-     * @param array|string $is
+     * @param array|string $groups Comma or pipe separated list of group handles,
+     *                             or an array of handles.
+     * @param bool         $strict
      *
      * @return bool
      */
-    function current_user_is($is)
+    function current_user_is($groups, $strict = true)
     {
-        if (Auth::guest()) {
-            return false;
-        }
-
-        return Auth::user()->is($is);
+        return current_user()->is($groups, $strict);
     }
 }
 
 if (!function_exists('current_user_can')) {
     /**
-     * Check for user's or user group's permission.
+     * Determine if a user has permission to perform some action.
      *
-     * @param array|string $can        Permission handle or an array of handles.
-     * @param Model|null   $model      Check if model's user_id relation is current user's ID.
-     * @param bool         $checkOwner Set to false if you do not want to check model's ownership.
+     * @param array|string $permissions Comma or pipe separated list of permission handles,
+     *                                  or an array of handles.
+     * @param object       $model       [Optional]
+     * @param string       $column      [Optional]
      *
      * @return bool
+     * @throws IncorrectParameterType
      */
-    function current_user_can($can, $model = null, $checkOwner = true)
+    function current_user_can($permissions, $model = null, $column = null)
     {
-        if (Auth::guest()) {
-            return false;
-        }
-
-        return Auth::user()->can($can, $model, $checkOwner);
+        return current_user()->can($permissions, $model, $column);
     }
 }
 
@@ -62,35 +58,50 @@ if (!function_exists('is_logged_in')) {
      */
     function is_logged_in()
     {
-        return Auth::check();
+        return auth()->check();
     }
 }
 
-if (!function_exists('user_avatar')) {
+if (!function_exists('avatar')) {
     /**
-     * Return user's avatar if it exists, otherwise return the default one.
+     * Get user's avatar. If none found, return the default one.
      *
-     * @param string $avatar Avatar file name.
+     * @param object $user User model instance. [Optional]
      *
      * @return string
      */
-    function user_avatar($avatar = '')
+    function avatar($user = null)
     {
-        return Uservel::avatar($avatar);
+        return Membership::avatar($user);
     }
 }
 
 if (!function_exists('avatar_exists')) {
     /**
-     * Check if user's avatar exists.
+     * Check wheter user avatar exists.
      *
-     * @param Model|string|null $avatar Avatar file name or user's object.
-     *                                  If empty, checks for current user.
+     * @param object|null $user User model instance. [Optional]
      *
      * @return bool
      */
-    function avatar_exists($avatar = null)
+    function avatar_exists($user = null)
     {
-        return Uservel::avatarExists($avatar);
+        return Membership::avatarExists($user);
     }
+}
+
+if (!function_exists('str_obfuscate')) {
+    /**
+     * Obfuscate a string.
+     *
+     * (c) Laravel (Collective)
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    function str_obfuscate($value)
+    {
+        return Membership::obfuscate($value);
+	}
 }

@@ -61,36 +61,33 @@ class MembershipServiceProvider extends ServiceProvider
      */
     protected function bladeExtensions()
     {
-        // Todo - Review this directive.
         // `current_user()` Blade Directive
-        Blade::directive('current', function ($attribute = null) {
-            return "<?php if (user({$attribute})): ?>";
-        });
-        Blade::directive('endcurrent', function () {
-            return '<?php endif; ?>';
+        Blade::directive('user', function ($attribute) {
+            return "<?php echo current_user({$attribute}); ?>";
         });
 
         // `current_user_is()` Blade Directive
         Blade::directive('is', function ($group) {
-            return "<?php if (current_user_is({$group})): ?>";
+            return "<?php if (current_user_is{$group}): ?>";
         });
         Blade::directive('endis', function () {
             return '<?php endif; ?>';
         });
+        Blade::directive('isnot', function ($group) {
+            return "<?php if (!current_user_is{$group}): ?>";
+        });
+        Blade::directive('endisnot', function () {
+            return '<?php endif; ?>';
+        });
+
+        // `current_user_can()` Blade Directive
+        //Blade::directive('user-can')
 
         // `is_logged_in()` Blade Directive
         Blade::directive('check', function () {
             return '<?php if (is_logged_in()): ?>';
         });
         Blade::directive('endcheck', function () {
-            return '<?php endif; ?>';
-        });
-
-        // `avatar_exists()` Blade Directive
-        Blade::directive('avatar', function ($avatar = null) {
-            return "<?php if (avatar_exists($avatar)): ?>";
-        });
-        Blade::directive('endavatar', function () {
             return '<?php endif; ?>';
         });
     }
