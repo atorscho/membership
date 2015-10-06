@@ -2,7 +2,9 @@
 
 namespace Atorscho\Membership;
 
+use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Auth\Guard;
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Filesystem\Filesystem;
 
 class Membership
@@ -16,17 +18,23 @@ class Membership
      * @var Filesystem
      */
     private $file;
+    /**
+     * @var Permission
+     */
+    private $permissions;
 
     /**
      * Membership constructor.
      *
      * @param Guard      $auth
      * @param Filesystem $file
+     * @param Permission $permissions
      */
-    public function __construct(Guard $auth, Filesystem $file)
+    public function __construct(Guard $auth, Filesystem $file, Permission $permissions)
     {
-        $this->auth = $auth;
-        $this->file = $file;
+        $this->auth        = $auth;
+        $this->file        = $file;
+        $this->permissions = $permissions;
     }
 
     /**
@@ -148,6 +156,22 @@ class Membership
         }
 
         return $safe;
+    }
+
+    /**
+     * Register Membership's permissions with Laravel's Gate.
+     *
+     * @param GateContract $gate
+     */
+    public function registerPermissions(GateContract $gate)
+    {
+        $permissions = $this->permissions->all();
+
+        foreach ($permissions as $permission) {
+            $gate->define($permission->handle, function ($user) use ($permission) {
+                return $user->can($permission->handle);
+            });
+        }
     }
 
     /**

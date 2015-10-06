@@ -80,14 +80,17 @@ class MembershipServiceProvider extends ServiceProvider
             return '<?php endif; ?>';
         });
 
-        // `current_user_can()` Blade Directive
-        //Blade::directive('user-can')
-
         // `is_logged_in()` Blade Directive
         Blade::directive('check', function () {
             return '<?php if (is_logged_in()): ?>';
         });
         Blade::directive('endcheck', function () {
+            return '<?php endif; ?>';
+        });
+        Blade::directive('guest', function () {
+            return '<?php if (!is_logged_in()): ?>';
+        });
+        Blade::directive('endguest', function () {
             return '<?php endif; ?>';
         });
     }
