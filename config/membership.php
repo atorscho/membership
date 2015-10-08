@@ -4,14 +4,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | General Settings
-    |--------------------------------------------------------------------------
-    */
-
-
-
-    /*
-    |--------------------------------------------------------------------------
     | Users
     |--------------------------------------------------------------------------
     */
@@ -32,11 +24,15 @@ return [
     |--------------------------------------------------------------------------
     | Groups
     |--------------------------------------------------------------------------
+    |
+    | Default group ID, separator for generated group handles, and number of
+    | groups to show per page.
+    |
     */
 
     'groups' => [
         'default'          => 1,
-        'handle_separator' => '-', // except a comma "," and a pipe "|"
+        'handle_separator' => '-', // comma "," and pipe "|" are reserved!
         'per_page'         => 10
     ],
 
@@ -44,10 +40,14 @@ return [
     |--------------------------------------------------------------------------
     | Permissions
     |--------------------------------------------------------------------------
+    |
+    | Separator for generated permission handles, and number of permissions
+    | to show per page.
+    |
     */
 
     'permissions' => [
-        'handle_separator' => '.', // except a comma "," and a pipe "|"
+        'handle_separator' => '.', // comma "," and pipe "|" are reserved!
         'per_page'         => 10
     ],
 

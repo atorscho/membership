@@ -10,9 +10,9 @@ trait ManageGroups
      * @param Group|string $groups Group instance, string (separated by a "|"),
      *                             or an array of groups.
      */
-    public function addTo($groups)
+    public function assignTo($groups)
     {
-        // If the parameter is an instance of Permission, attach it
+        // If the parameter is an instance of Group, attach it
         if ($groups instanceof Group) {
             return $this->groups()->attach($groups);
         }
@@ -28,7 +28,7 @@ trait ManageGroups
                 $group = Group::whereHandle($group)->first();
             }
 
-            // Attach the permission
+            // Attach the group
             $this->groups()->attach($group);
         }
     }
@@ -41,7 +41,7 @@ trait ManageGroups
      */
     public function removeFrom($groups)
     {
-        // If the parameter is an instance of Permission, attach it
+        // If the parameter is an instance of Group, attach it
         if ($groups instanceof Group) {
             return $this->groups()->detach($groups);
         }
@@ -57,7 +57,7 @@ trait ManageGroups
                 $group = Group::whereHandle($group)->first();
             }
 
-            // Attach the permission
+            // Attach the group
             $this->groups()->detach($group);
         }
     }

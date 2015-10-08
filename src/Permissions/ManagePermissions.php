@@ -12,6 +12,11 @@ trait ManagePermissions
      */
     public function givePermissionTo($permissions = null)
     {
+        // No permissions if parameter is an empty string
+        if(is_string($permissions) && empty($permissions)) {
+            return null;
+        }
+
         // No parameter provided or '*', give all permissions
         if (is_null($permissions) || $permissions == '*') {
             $permissions = Permission::lists('id')->all();

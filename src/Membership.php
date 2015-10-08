@@ -2,6 +2,7 @@
 
 namespace Atorscho\Membership;
 
+use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Auth\Guard;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -18,23 +19,121 @@ class Membership
      * @var Filesystem
      */
     private $file;
+
     /**
      * @var Permission
      */
     private $permissions;
 
     /**
+     * @var Group
+     */
+    private $groups;
+
+    /**
      * Membership constructor.
      *
      * @param Guard      $auth
      * @param Filesystem $file
+     * @param Group      $groups
      * @param Permission $permissions
      */
-    public function __construct(Guard $auth, Filesystem $file, Permission $permissions)
+    public function __construct(Guard $auth, Filesystem $file, Group $groups, Permission $permissions)
     {
         $this->auth        = $auth;
         $this->file        = $file;
         $this->permissions = $permissions;
+        $this->groups      = $groups;
+    }
+
+    /**
+     * Create a user and assign it to a group.
+     *
+     * @param array  $attributes The user attributes.
+     * @param string $group      Group handle or group model [Optional]
+     *
+     * @return object
+     */
+    public function createUser(array $attributes, $group = null)
+    {
+        // Default group
+        if (!$group) {
+            $group = $this->groups->findOrFail(config('membership.groups.default'));
+        }
+
+        // Get the group by its handle
+        if (is_string($group)) {
+            $group = $this->groups->whereHandle($group)->firstOrFail();
+        }
+
+        // Get user model class name
+        $class = config('membership.users.model');
+
+        // Create the user and assign it to the specific group
+        $user = $class::create($attributes);
+        $user->assignTo($group);
+
+        return $user;
+    }
+
+    /**
+     * Create a member.
+     *
+     * @param array $attributes
+     *
+     * @return object
+     */
+    public function createMember(array $attributes)
+    {
+        return $this->createUser($attributes, 'members');
+    }
+
+    /**
+     * Create a moderator.
+     *
+     * @param array $attributes
+     *
+     * @return object
+     */
+    public function createModerator(array $attributes)
+    {
+        return $this->createUser($attributes, 'moderators');
+    }
+
+    /**
+     * Create a super-moderator.
+     *
+     * @param array $attributes
+     *
+     * @return object
+     */
+    public function createSuperModerator(array $attributes)
+    {
+        return $this->createUser($attributes, 'super-moderators');
+    }
+
+    /**
+     * Create an administrator.
+     *
+     * @param array $attributes
+     *
+     * @return object
+     */
+    public function createAdministrator(array $attributes)
+    {
+        return $this->createUser($attributes, 'administrators');
+    }
+
+    /**
+     * Create an owner.
+     *
+     * @param array $attributes
+     *
+     * @return object
+     */
+    public function createOwner(array $attributes)
+    {
+        return $this->createUser($attributes, 'owners');
     }
 
     /**

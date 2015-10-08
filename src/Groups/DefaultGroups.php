@@ -18,7 +18,8 @@ class DefaultGroups extends Seeder
         $groups = $this->groups();
 
         foreach ($groups as $group) {
-            Group::create($group)->givePermissionTo($group['permissions']);
+            $permissions = array_pull($group, 'permissions');
+            Group::create($group)->givePermissionTo($permissions);
         }
     }
 
@@ -59,6 +60,12 @@ class DefaultGroups extends Seeder
                 'handle'      => 'owners',
                 'description' => 'Users with full access to the site.',
                 'permissions' => '*'
+            ],
+            [
+                'name'        => 'Banned',
+                'handle'      => 'banned',
+                'description' => 'Restricted access permissions to the site.',
+                'permissions' => ''
             ]
         ];
     }

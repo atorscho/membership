@@ -2,6 +2,7 @@
 
 namespace Atorscho\Membership;
 
+use Atorscho\Membership\Setup\InstallUserMembershipSystem;
 use Blade;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
@@ -35,11 +36,11 @@ class MembershipServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Uservel Install Command
-        //$this->app['command.membership.install'] = $this->app->share(function (Application $app) {
-        //    return $app->make(InstallUservel::class);
-        //});
-        //$this->commands('command.membership.install');
+        // Install Command
+        $this->app['command.membership.install'] = $this->app->share(function (Application $app) {
+            return $app->make(InstallUserMembershipSystem::class);
+        });
+        $this->commands('command.membership.install');
 
         // Register Membership
         $this->app->singleton('membership', function (Application $app) {
