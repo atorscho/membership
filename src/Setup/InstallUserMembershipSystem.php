@@ -50,6 +50,11 @@ class InstallUserMembershipSystem extends Command
         $installer->install();
     }
 
+    /**
+     * Get output property.
+     *
+     * @return \Illuminate\Console\OutputStyle
+     */
     public function getOutput()
     {
         return $this->output;
