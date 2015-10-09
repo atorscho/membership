@@ -264,6 +264,11 @@ class Membership
      */
     public function registerPermissions(GateContract $gate)
     {
+        // Register permissions only if the table exists
+        if (!\Schema::hasTable('permissions')) {
+            return;
+        }
+
         $permissions = $this->permissions->all();
 
         foreach ($permissions as $permission) {

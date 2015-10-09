@@ -15,8 +15,11 @@ return [
             // Path to the folder with uploaded avatars
             'path'    => 'uploads/images/avatars'
         ],
+        // User Model class name
         'model'    => App\User::class,
+        // Number of users to display per page
         'per_page' => 10,
+        // Database table name
         'table'    => 'users'
     ],
 
@@ -24,15 +27,14 @@ return [
     |--------------------------------------------------------------------------
     | Groups
     |--------------------------------------------------------------------------
-    |
-    | Default group ID, separator for generated group handles, and number of
-    | groups to show per page.
-    |
     */
 
     'groups' => [
+        // Default group ID
         'default'          => 1,
+        // Used for auto-generated handles
         'handle_separator' => '-', // comma "," and pipe "|" are reserved!
+        // Number of groups to display per page
         'per_page'         => 10
     ],
 
@@ -40,14 +42,12 @@ return [
     |--------------------------------------------------------------------------
     | Permissions
     |--------------------------------------------------------------------------
-    |
-    | Separator for generated permission handles, and number of permissions
-    | to show per page.
-    |
     */
 
     'permissions' => [
+        // Used for auto-generated handles
         'handle_separator' => '.', // comma "," and pipe "|" are reserved!
+        // Number of permissions to display per page
         'per_page'         => 10
     ],
 
