@@ -13,7 +13,7 @@ trait ManagePermissions
     public function givePermissionTo($permissions = null)
     {
         // No permissions if parameter is an empty string
-        if(is_string($permissions) && empty($permissions)) {
+        if (is_string($permissions) && empty($permissions)) {
             return null;
         }
 

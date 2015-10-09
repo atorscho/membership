@@ -103,5 +103,5 @@ if (!function_exists('str_obfuscate')) {
     function str_obfuscate($value)
     {
         return Membership::obfuscate($value);
-	}
+    }
 }

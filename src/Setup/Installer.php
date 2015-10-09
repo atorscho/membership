@@ -154,6 +154,7 @@ class Installer
         }
 
         $table = $this->checkUsersTableExistence();
+
         list($usernameColumn, $emailColumn, $passwordColumn) = $this->checkUserColumnsExistence($table);
 
         // Create an owner
