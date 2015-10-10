@@ -15,8 +15,6 @@ return [
             // Path to the folder with uploaded avatars
             'path'    => 'uploads/images/avatars'
         ],
-        // User Model class name
-        'model'    => App\User::class,
         // Number of users to display per page
         'per_page' => 10,
         // Database table name
