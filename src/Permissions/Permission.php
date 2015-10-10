@@ -47,7 +47,7 @@ class Permission extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(config('membership.users.model'), 'user_permissions');
+        return $this->belongsToMany(config('auth.model'), 'user_permissions');
     }
 
     /**

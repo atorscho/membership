@@ -51,7 +51,7 @@ class Group extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(config('membership.users.model'), 'user_groups');
+        return $this->belongsToMany(config('auth.model'), 'user_groups');
     }
 
     /**

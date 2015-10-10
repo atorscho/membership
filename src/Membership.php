@@ -67,7 +67,7 @@ class Membership
         }
 
         // Get user model class name
-        $class = config('membership.users.model');
+        $class = config('auth.model');
 
         // Create the user and assign it to the specific group
         $user = $class::create($attributes);
@@ -305,7 +305,7 @@ class Membership
      */
     protected function getCurrentUserInstance()
     {
-        $class = config('membership.users.model');
+        $class = config('auth.model');
 
         $user = $class::with('groups', 'permissions')->findOrFail($this->auth->id());
 
