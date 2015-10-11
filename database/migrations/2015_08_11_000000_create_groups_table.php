@@ -17,8 +17,6 @@ class CreateGroupsTable extends Migration
             $table->string('name');
             $table->string('handle')->unique()->index();
             $table->string('description')->nullable();
-            $table->string('prefix')->nullable();
-            $table->string('suffix')->nullable();
         });
 
         Schema::create('user_groups', function (Blueprint $table) {

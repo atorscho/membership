@@ -2,6 +2,7 @@
 
 namespace Atorscho\Membership;
 
+use Atorscho\Membership\Setup\InstallUserMembershipSystem;
 use Blade;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
@@ -35,22 +36,22 @@ class MembershipServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Uservel Install Command
-        //$this->app['command.membership.install'] = $this->app->share(function (Application $app) {
-        //    return $app->make(InstallUservel::class);
-        //});
-        //$this->commands('command.membership.install');
+        // Install Command
+        $this->app['command.membership.install'] = $this->app->share(function (Application $app) {
+            return $app->make(InstallUserMembershipSystem::class);
+        });
+        $this->commands('command.membership.install');
+
+        // Register Membership
+        $this->app->singleton('membership', function (Application $app) {
+            return $app->make(Membership::class);
+        });
 
         // Facade
-        //$this->app->bind('membership', function (Application $app) {
-        //    return $app->make(Uservel::class);
-        //});
-
-        // Alias
-        //$this->app->booting(function () {
-        //    $loader = AliasLoader::getInstance();
-        //    $loader->alias('Uservel', UservelFacade::class);
-        //});
+        $this->app->booting(function () {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('Membership', MembershipFacade::class);
+        });
 
         // Blade Directives
         $this->bladeExtensions();
@@ -62,34 +63,35 @@ class MembershipServiceProvider extends ServiceProvider
     protected function bladeExtensions()
     {
         // `current_user()` Blade Directive
-        Blade::directive('current', function ($attribute = null) {
-            return "<?php if (current_user({$attribute})): ?>";
-        });
-        Blade::directive('endcurrent', function () {
-            return '<?php endif; ?>';
+        Blade::directive('user', function ($attribute) {
+            return "<?php echo current_user({$attribute}); ?>";
         });
 
         // `current_user_is()` Blade Directive
         Blade::directive('is', function ($group) {
-            return "<?php if (current_user_is({$group})): ?>";
+            return "<?php if (current_user_is{$group}): ?>";
         });
         Blade::directive('endis', function () {
             return '<?php endif; ?>';
         });
-
-        // `is_logged_in()` Blade Directive
-        Blade::directive('logged', function () {
-            return '<?php if (is_logged_in()): ?>';
+        Blade::directive('isnot', function ($group) {
+            return "<?php if (!current_user_is{$group}): ?>";
         });
-        Blade::directive('endlogged', function () {
+        Blade::directive('endisnot', function () {
             return '<?php endif; ?>';
         });
 
-        // `avatar_exists()` Blade Directive
-        Blade::directive('avatar', function ($avatar = null) {
-            return "<?php if (avatar_exists($avatar)): ?>";
+        // `is_logged_in()` Blade Directive
+        Blade::directive('check', function () {
+            return '<?php if (is_logged_in()): ?>';
         });
-        Blade::directive('endavatar', function () {
+        Blade::directive('endcheck', function () {
+            return '<?php endif; ?>';
+        });
+        Blade::directive('guest', function () {
+            return '<?php if (!is_logged_in()): ?>';
+        });
+        Blade::directive('endguest', function () {
             return '<?php endif; ?>';
         });
     }

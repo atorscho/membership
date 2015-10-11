@@ -4,29 +4,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | General Settings
-    |--------------------------------------------------------------------------
-    */
-
-    'handle_separator' => '.',
-
-    /*
-    |--------------------------------------------------------------------------
     | Users
     |--------------------------------------------------------------------------
     */
 
     'users' => [
         'avatar'   => [
-            // DB column name
-            'column'  => 'avatar',
             // Default avatar file
             'default' => 'assets/img/misc/noavatar.png',
             // Path to the folder with uploaded avatars
             'path'    => 'uploads/images/avatars'
         ],
-        'model'    => Atorscho\User::class,
+        // Number of users to display per page
         'per_page' => 10,
+        // Database table name
         'table'    => 'users'
     ],
 
@@ -37,8 +28,12 @@ return [
     */
 
     'groups' => [
-        'default'  => 1,
-        'per_page' => 10,
+        // Default group ID
+        'default'          => 1,
+        // Used for auto-generated handles
+        'handle_separator' => '-', // comma "," and pipe "|" are reserved!
+        // Number of groups to display per page
+        'per_page'         => 10
     ],
 
     /*
@@ -48,7 +43,10 @@ return [
     */
 
     'permissions' => [
-        'per_page' => 10
+        // Used for auto-generated handles
+        'handle_separator' => '.', // comma "," and pipe "|" are reserved!
+        // Number of permissions to display per page
+        'per_page'         => 10
     ],
 
 ];

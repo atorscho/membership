@@ -2,18 +2,21 @@
 
 namespace Atorscho\Membership\Groups;
 
+use Atorscho\Membership\Permissions\ManagePermissions;
 use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
+    use ManagePermissions;
+
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are protected from mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle', 'description', 'prefix', 'suffix'];
+    protected $guarded = ['id'];
 
     /**
      * Cast attributes to relevant types.
@@ -32,7 +35,7 @@ class Group extends Model
     public $timestamps = false;
 
     /**
-     * Role's permissions.
+     * Group's permissions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -42,26 +45,13 @@ class Group extends Model
     }
 
     /**
-     * Role's users.
+     * Group's users.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
-        return $this->belongsToMany(config('uservel.users.model'), 'user_groups');
-    }
-
-    /**
-     * Return only specific group members.
-     *
-     * @param Builder $query
-     * @param string  $group
-     *
-     * @return mixed
-     */
-    public function scopeOnly(Builder $query, $group)
-    {
-        return $query->whereHandle($group)->first()->users;
+        return $this->belongsToMany(config('auth.model'), 'user_groups');
     }
 
     /**
@@ -71,6 +61,6 @@ class Group extends Model
      */
     public function setHandleAttribute($handle)
     {
-        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.handle_separator'));
+        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.groups.handle_separator'));
     }
 }

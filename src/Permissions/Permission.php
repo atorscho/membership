@@ -2,17 +2,17 @@
 
 namespace Atorscho\Membership\Permissions;
 
-use Atorscho\Membership\Groups\Role;
+use Atorscho\Membership\Groups\Group;
 use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are protected from mass assignment.
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle'];
+    protected $guarded = ['id'];
 
     /**
      * Cast attributes to relevant types.
@@ -37,7 +37,7 @@ class Permission extends Model
      */
     public function groups()
     {
-        return $this->belongsToMany(Role::class, 'group_permissions');
+        return $this->belongsToMany(Group::class, 'group_permissions');
     }
 
     /**
@@ -47,6 +47,16 @@ class Permission extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(config('uservel.users.model'), 'user_permissions');
+        return $this->belongsToMany(config('auth.model'), 'user_permissions');
+    }
+
+    /**
+     * Ensure the handle attribute is always in a correct format.
+     *
+     * @param string $handle
+     */
+    public function setHandleAttribute($handle)
+    {
+        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.permissions.handle_separator'));
     }
 }
