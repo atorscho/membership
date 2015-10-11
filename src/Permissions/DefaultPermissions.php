@@ -39,19 +39,19 @@ class DefaultPermissions extends Seeder
                 'handle'      => 'users',
                 'permissions' => [
                     [
-                        'name'   => 'Users: Create',
+                        'name'   => 'Create',
                         'handle' => 'create.users'
                     ],
                     [
-                        'name'   => 'Users: Edit',
+                        'name'   => 'Edit',
                         'handle' => 'edit.users'
                     ],
                     [
-                        'name'   => 'Users: Delete',
+                        'name'   => 'Delete',
                         'handle' => 'delete.users'
                     ],
                     [
-                        'name'   => 'Users: Assign Permissions',
+                        'name'   => 'Assign Permissions',
                         'handle' => 'assign.users.permissions'
                     ]
                 ]
@@ -61,19 +61,19 @@ class DefaultPermissions extends Seeder
                 'handle'      => 'groups',
                 'permissions' => [
                     [
-                        'name'   => 'Groups: Create',
+                        'name'   => 'Create',
                         'handle' => 'create.groups'
                     ],
                     [
-                        'name'   => 'Groups: Edit',
+                        'name'   => 'Edit',
                         'handle' => 'edit.groups'
                     ],
                     [
-                        'name'   => 'Groups: Delete',
+                        'name'   => 'Delete',
                         'handle' => 'delete.groups'
                     ],
                     [
-                        'name'   => 'Groups: Assign Permissions',
+                        'name'   => 'Assign Permissions',
                         'handle' => 'assign.groups.permissions'
                     ]
                 ]
@@ -83,15 +83,15 @@ class DefaultPermissions extends Seeder
                 'handle'      => 'permissions',
                 'permissions' => [
                     [
-                        'name'   => 'Permissions: Create',
+                        'name'   => 'Create',
                         'handle' => 'create.permissions'
                     ],
                     [
-                        'name'   => 'Permissions: Edit',
+                        'name'   => 'Edit',
                         'handle' => 'edit.permissions'
                     ],
                     [
-                        'name'   => 'Permissions: Delete',
+                        'name'   => 'Delete',
                         'handle' => 'delete.permissions'
                     ]
                 ]

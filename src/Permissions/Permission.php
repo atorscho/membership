@@ -12,7 +12,7 @@ class Permission extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle'];
+    protected $fillable = ['set_id', 'name', 'handle'];
 
     /**
      * Cast attributes to relevant types.
@@ -59,5 +59,15 @@ class Permission extends Model
     public function set()
     {
         return $this->belongsTo(PermissionSet::class, 'set_id');
+    }
+
+    /**
+     * Ensure the handle attribute is always in a correct format.
+     *
+     * @param string $handle
+     */
+    public function setHandleAttribute($handle)
+    {
+        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.permissions.handle_separator'));
     }
 }

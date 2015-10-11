@@ -39,4 +39,14 @@ class PermissionSet extends Model
     {
         return $this->hasMany(Permission::class, 'set_id');
     }
+
+    /**
+     * Ensure the handle attribute is always in a correct format.
+     *
+     * @param string $handle
+     */
+    public function setHandleAttribute($handle)
+    {
+        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.sets.handle_separator'));
+    }
 }

@@ -46,7 +46,7 @@ class DefaultGroups extends Seeder
                 'name'        => 'Super Moderators',
                 'handle'      => 'super-moderators',
                 'description' => 'Moderators with extended permissions.',
-                'permissions' => 'create.users|edit.users|edit.own.profile|edit.groups'
+                'permissions' => 'create.users|edit.users|edit.own.profile|edit.groups|access.acp'
             ],
             [
                 'name'        => 'Administrators',
