@@ -84,4 +84,17 @@ trait ManagePermissions
 
         return true;
     }
+
+    /**
+     * Synchronize permissions by attaching and detaching them.
+     *
+     * @param array $ids
+     * @param bool  $detaching
+     *
+     * @return mixed
+     */
+    public function syncPermissions($ids, $detaching = true)
+    {
+        return $this->permissions()->sync($ids, $detaching);
+    }
 }

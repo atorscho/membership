@@ -7,6 +7,7 @@ use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Groups\ManageGroups;
 use Atorscho\Membership\Permissions\ManagePermissions;
 use Atorscho\Membership\Permissions\Permission;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Membership;
@@ -173,6 +174,19 @@ trait UserMembership
     public function avatar()
     {
         return Membership::avatar($this);
+    }
+
+    /**
+     * Filter users by their group belonging.
+     *
+     * @param Builder $query
+     * @param string  $group
+     *
+     * @return mixed
+     */
+    public function scopeOnly(Builder $query, $group)
+    {
+        return Group::whereHandle($group)->firstOrFail()->users();
     }
 
     /**

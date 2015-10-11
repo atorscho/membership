@@ -28,6 +28,10 @@ if (!function_exists('current_user_is')) {
      */
     function current_user_is($groups, $strict = true)
     {
+        if (!is_logged_in()) {
+            return false;
+        }
+
         return current_user()->is($groups, $strict);
     }
 }
@@ -46,6 +50,10 @@ if (!function_exists('current_user_can')) {
      */
     function current_user_can($permissions, $model = null, $column = null)
     {
+        if (!is_logged_in()) {
+            return false;
+        }
+
         return current_user()->can($permissions, $model, $column);
     }
 }

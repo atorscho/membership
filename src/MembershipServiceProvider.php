@@ -63,19 +63,19 @@ class MembershipServiceProvider extends ServiceProvider
     protected function bladeExtensions()
     {
         // `current_user()` Blade Directive
-        Blade::directive('user', function ($attribute) {
-            return "<?php echo current_user({$attribute}); ?>";
+        Blade::directive('user', function ($expression) {
+            return "<?php echo current_user({$expression}); ?>";
         });
 
         // `current_user_is()` Blade Directive
-        Blade::directive('is', function ($group) {
-            return "<?php if (current_user_is{$group}): ?>";
+        Blade::directive('is', function ($expression) {
+            return "<?php if (current_user_is{$expression}): ?>";
         });
         Blade::directive('endis', function () {
             return '<?php endif; ?>';
         });
-        Blade::directive('isnot', function ($group) {
-            return "<?php if (!current_user_is{$group}): ?>";
+        Blade::directive('isnot', function ($expression) {
+            return "<?php if (!current_user_is{$expression}): ?>";
         });
         Blade::directive('endisnot', function () {
             return '<?php endif; ?>';

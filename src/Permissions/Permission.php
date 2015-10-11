@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     /**
-     * The attributes that are protected from mass assignment.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = ['id'];
+    protected $fillable = ['name', 'handle'];
 
     /**
      * Cast attributes to relevant types.
@@ -47,16 +47,6 @@ class Permission extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(config('auth.model'), 'user_permissions');
-    }
-
-    /**
-     * Ensure the handle attribute is always in a correct format.
-     *
-     * @param string $handle
-     */
-    public function setHandleAttribute($handle)
-    {
-        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.permissions.handle_separator'));
+        return $this->belongsToMany(config('uservel.users.model'), 'user_permissions');
     }
 }

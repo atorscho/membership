@@ -61,4 +61,17 @@ trait ManageGroups
             $this->groups()->detach($group);
         }
     }
+
+    /**
+     * Synchronize groups by attaching and detaching them.
+     *
+     * @param array $ids
+     * @param bool  $detaching
+     *
+     * @return mixed
+     */
+    public function syncGroups($ids, $detaching = true)
+    {
+        return $this->groups()->sync($ids, $detaching);
+    }
 }
