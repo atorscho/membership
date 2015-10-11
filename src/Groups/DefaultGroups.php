@@ -18,8 +18,7 @@ class DefaultGroups extends Seeder
         $groups = $this->groups();
 
         foreach ($groups as $group) {
-            $permissions = array_pull($group, 'permissions');
-            Group::create($group)->givePermissionTo($permissions);
+            Group::create($group)->givePermissionTo($group['permissions']);
         }
     }
 

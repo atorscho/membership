@@ -20,7 +20,8 @@ class Permission extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'int'
+        'id'     => 'int',
+        'set_id' => 'int'
     ];
 
     /**
@@ -48,5 +49,15 @@ class Permission extends Model
     public function users()
     {
         return $this->belongsToMany(config('uservel.users.model'), 'user_permissions');
+    }
+
+    /**
+     * Permission's set.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function set()
+    {
+        return $this->belongsTo(PermissionSet::class, 'set_id');
     }
 }

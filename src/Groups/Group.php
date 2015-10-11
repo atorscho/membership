@@ -12,11 +12,11 @@ class Group extends Model
     use ManagePermissions;
 
     /**
-     * The attributes that are protected from mass assignment.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = ['id'];
+    protected $fillable = ['name', 'handle', 'description'];
 
     /**
      * Cast attributes to relevant types.
