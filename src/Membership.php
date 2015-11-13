@@ -183,7 +183,7 @@ class Membership
      */
     public function avatar($user = null)
     {
-        if ($this->auth->guest()) {
+        if ($this->auth->guest() && !$user) {
             return '';
         }
 
