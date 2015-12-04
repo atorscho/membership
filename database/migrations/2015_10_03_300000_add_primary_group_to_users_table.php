@@ -17,7 +17,7 @@ class AddPrimaryGroupToUsersTable extends Migration
      */
     public function __construct()
     {
-        $this->tableName = config('auth.model');
+        $this->tableName = config('auth.table');
     }
 
     /**
