@@ -2,6 +2,7 @@
 
 namespace Atorscho\Membership\Groups;
 
+use DB;
 use Illuminate\Database\Seeder;
 
 class DefaultGroups extends Seeder
@@ -13,7 +14,9 @@ class DefaultGroups extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Group::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         $groups = $this->groups();
 
