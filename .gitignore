@@ -1,5 +1,7 @@
-build
+/bower_components
+/node_modules
+/vendor
+composer.phar
 composer.lock
-docs
-node_modules
-vendor
+.DS_Store
+

@@ -14,9 +14,7 @@ class DefaultPermissions extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Permission::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         $sets = $this->permissions();
 

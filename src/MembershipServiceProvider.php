@@ -64,7 +64,7 @@ class MembershipServiceProvider extends ServiceProvider
     {
         // `current_user()` Blade Directive
         Blade::directive('user', function ($expression) {
-            return "<?php echo current_user({$expression}); ?>";
+            return "<?php echo current_user{$expression}; ?>";
         });
 
         // `current_user_is()` Blade Directive

@@ -10,9 +10,9 @@ if (!function_exists('current_user')) {
      *
      * @return object|string|bool
      */
-    function current_user($attribute = null)
+    function current_user($attribute = null, $default = '')
     {
-        return Membership::currentUser($attribute);
+        return Membership::currentUser($attribute, $default);
     }
 }
 

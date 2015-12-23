@@ -5,7 +5,6 @@ namespace Atorscho\Membership;
 use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Permissions\Permission;
 use Illuminate\Auth\Guard;
-use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Filesystem\Filesystem;
 
 class Membership
@@ -61,8 +60,11 @@ class Membership
             $group = $this->groups->findOrFail(config('membership.groups.default'));
         }
 
-        // Get the group by its handle
-        if (is_string($group)) {
+        // Get the group by its ID
+        if (is_numeric($group)) {
+            $group = $this->groups->findOrFail($group);
+        } // Get the group by its handle
+        elseif (is_string($group)) {
             $group = $this->groups->whereHandle($group)->firstOrFail();
         }
 
@@ -139,11 +141,12 @@ class Membership
     /**
      * Get currently logged in user instance or its attribute value.
      *
-     * @param string|null $attribute User column name.
+     * @param string $attribute User attribute name.
+     * @param string $default   User attribute name that will be used as a default.
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
-    public function currentUser($attribute = null)
+    public function currentUser($attribute = null, $default = '')
     {
         if (auth()->guest()) {
             return null;
@@ -159,7 +162,7 @@ class Membership
             return $this->obfuscate($user->{$attribute});
         }
 
-        return $user->{$attribute} ?: null;
+        return $user->{$attribute} ?: ($default ? $this->currentUser($default) : $default);
     }
 
     /**
@@ -260,9 +263,9 @@ class Membership
     /**
      * Register Membership's permissions with Laravel's Gate.
      *
-     * @param GateContract $gate
+     * @param \Illuminate\Contracts\Auth\Access\Gate $gate
      */
-    public function registerPermissions(GateContract $gate)
+    public function registerPermissions(\Illuminate\Contracts\Auth\Access\Gate $gate)
     {
         // Register permissions only if the table exists
         if (!\Schema::hasTable('permissions')) {
