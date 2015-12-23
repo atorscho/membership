@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreatePermissionSetsTable extends Migration
 {
@@ -27,5 +27,5 @@ class CreatePermissionSetsTable extends Migration
     public function down()
     {
         Schema::drop('permission_sets');
-   }
+    }
 }
