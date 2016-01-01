@@ -23,7 +23,8 @@
     ],
     "require": {
         "php" : ">=5.5.9",
-        "illuminate/support": "^5.1"
+        "illuminate/support": "^5.1",
+        "cocur/slugify": "~1.2"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

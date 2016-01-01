@@ -44,8 +44,8 @@ class DefaultPermissions extends Seeder
                         'handle' => 'create.users'
                     ],
                     [
-                        'name'   => 'Edit',
-                        'handle' => 'edit.users'
+                        'name'   => 'Update',
+                        'handle' => 'update.users'
                     ],
                     [
                         'name'   => 'Delete',
@@ -66,8 +66,8 @@ class DefaultPermissions extends Seeder
                         'handle' => 'create.groups'
                     ],
                     [
-                        'name'   => 'Edit',
-                        'handle' => 'edit.groups'
+                        'name'   => 'Update',
+                        'handle' => 'update.groups'
                     ],
                     [
                         'name'   => 'Delete',
@@ -88,8 +88,8 @@ class DefaultPermissions extends Seeder
                         'handle' => 'create.permissions'
                     ],
                     [
-                        'name'   => 'Edit',
-                        'handle' => 'edit.permissions'
+                        'name'   => 'Update',
+                        'handle' => 'update.permissions'
                     ],
                     [
                         'name'   => 'Delete',
