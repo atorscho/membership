@@ -3,11 +3,14 @@
 namespace Atorscho\Membership\Permissions;
 
 use Atorscho\Membership\Groups\Group;
+use Atorscho\Membership\Groups\ManageGroups;
 use Illuminate\Database\Eloquent\Model;
 use Slugify;
 
 class Permission extends Model
 {
+    use ManageGroups;
+
     /**
      * The attributes that are mass assignable.
      *
