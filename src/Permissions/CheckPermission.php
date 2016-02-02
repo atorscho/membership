@@ -17,7 +17,7 @@ class CheckPermission
      */
     public function handle($request, Closure $next, $permission)
     {
-        if (!current_user_can($permission)) {
+        if (!current_user_can($permission) || is_logged_out()) {
             app()->abort(403, 'You do not have enough permissions to access this page.');
         }
 

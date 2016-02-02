@@ -100,10 +100,10 @@ trait UserMembership
         $userGroups = $this->groups->lists('handle')->all();
 
         if ($strict) {
-            return count(array_intersect($userGroups, $groups)) == count($groups);
+            return count(array_intersect($userGroups, $groups)) == count($groups) && is_logged_in();
         }
 
-        return (bool) array_intersect($userGroups, $groups);
+        return (bool) array_intersect($userGroups, $groups) && is_logged_in();
     }
 
     /**
@@ -129,7 +129,7 @@ trait UserMembership
                 $column = 'user_id';
             }
 
-            return $this->can($permissions) && $model->{$column} == $this->id;
+            return ($this->can($permissions) || $model->{$column} == $this->id) && is_logged_in();
         }
 
         $strict = true;
@@ -150,10 +150,10 @@ trait UserMembership
 
         // Check ALL permissions
         if ($strict) {
-            return count(array_intersect($this->allPermissions()->lists('handle')->all(), $permissions)) == count($permissions);
+            return count(array_intersect($this->allPermissions()->lists('handle')->all(), $permissions)) == count($permissions) && is_logged_in();
         }
 
-        return (bool) array_intersect($this->allPermissions()->lists('handle')->all(), $permissions);
+        return (bool) array_intersect($this->allPermissions()->lists('handle')->all(), $permissions) && is_logged_in();
     }
 
     /**

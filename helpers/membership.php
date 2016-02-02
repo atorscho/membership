@@ -70,6 +70,18 @@ if (!function_exists('is_logged_in')) {
     }
 }
 
+if (! function_exists('is_logged_out')) {
+    /**
+     * Return true if user is not logged in.
+     *
+     * @return bool
+     */
+    function is_logged_out()
+    {
+        return auth()->guest();
+	}
+}
+
 if (!function_exists('avatar')) {
     /**
      * Get user's avatar. If none found, return the default one.
