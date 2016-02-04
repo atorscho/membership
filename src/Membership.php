@@ -162,7 +162,7 @@ class Membership
             return $this->obfuscate($user->{$attribute});
         }
 
-        return $user->{$attribute} ?: ($default ? $this->currentUser($default) : $default);
+        return $user->{$attribute} ?: ($default && $this->currentUser($default) ? $this->currentUser($default) : $default);
     }
 
     /**

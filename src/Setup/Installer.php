@@ -77,6 +77,8 @@ class Installer
         $bar->advance();
 
         $bar->finish();
+
+        $this->command->line('');
     }
 
     /**
