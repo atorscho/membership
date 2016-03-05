@@ -117,19 +117,15 @@ trait UserMembership
      * @return bool
      * @throws IncorrectParameterType
      */
-    public function can($permissions, $model = null, $column = null)
+    public function can($permissions, $model = null, $column = 'user_id')
     {
         // Check if user can access the model
         if ($model) {
-            if (!$model instanceof Model) {
+            if (! $model instanceof Model) {
                 throw new IncorrectParameterType('Parameter [$model] must be an instance of the Eloquent Model class.');
             }
 
-            if (!$column) {
-                $column = 'user_id';
-            }
-
-            return ($this->can($permissions) || $model->{$column} == $this->id) && is_logged_in();
+            return ($this->can($permissions) || $this->owns($model, $column)) && is_logged_in();
         }
 
         $strict = true;
@@ -150,10 +146,29 @@ trait UserMembership
 
         // Check ALL permissions
         if ($strict) {
-            return count(array_intersect($this->allPermissions()->lists('handle')->all(), $permissions)) == count($permissions) && is_logged_in();
+            return count(array_intersect($this->allPermissions()->lists('handle')->all(),
+                $permissions)) == count($permissions) && is_logged_in();
         }
 
         return (bool) array_intersect($this->allPermissions()->lists('handle')->all(), $permissions) && is_logged_in();
+    }
+
+    /**
+     * Check user's ownership for a model.
+     *
+     * @param object $model  [Optional]
+     * @param string $column [Optional]
+     *
+     * @return bool
+     * @throws IncorrectParameterType
+     */
+    protected function owns($model, $column = 'user_id')
+    {
+        if (! $model instanceof Model) {
+            throw new IncorrectParameterType('The $model parameter must be an instance of the Eloquent Model.');
+        }
+
+        return $model->{$column} == $this->id;
     }
 
     /**
