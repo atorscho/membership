@@ -2,7 +2,7 @@
 
 use Atorscho\Membership\Exceptions\IncorrectParameterType;
 
-if (!function_exists('current_user')) {
+if (! function_exists('current_user')) {
     /**
      * Return user instance or its model attribute.
      *
@@ -16,7 +16,7 @@ if (!function_exists('current_user')) {
     }
 }
 
-if (!function_exists('current_user_is')) {
+if (! function_exists('current_user_is')) {
     /**
      * Check the user belonging to a group.
      *
@@ -28,7 +28,7 @@ if (!function_exists('current_user_is')) {
      */
     function current_user_is($groups, $strict = true)
     {
-        if (!is_logged_in()) {
+        if (! is_logged_in()) {
             return false;
         }
 
@@ -36,7 +36,7 @@ if (!function_exists('current_user_is')) {
     }
 }
 
-if (!function_exists('current_user_can')) {
+if (! function_exists('current_user_can')) {
     /**
      * Determine if a user has permission to perform some action.
      *
@@ -50,7 +50,7 @@ if (!function_exists('current_user_can')) {
      */
     function current_user_can($permissions, $model = null, $column = null)
     {
-        if (!is_logged_in()) {
+        if (! is_logged_in()) {
             return false;
         }
 
@@ -58,7 +58,7 @@ if (!function_exists('current_user_can')) {
     }
 }
 
-if (!function_exists('is_logged_in')) {
+if (! function_exists('is_logged_in')) {
     /**
      * Return true if user is logged in.
      *
@@ -79,10 +79,10 @@ if (! function_exists('is_logged_out')) {
     function is_logged_out()
     {
         return auth()->guest();
-	}
+    }
 }
 
-if (!function_exists('avatar')) {
+if (! function_exists('avatar')) {
     /**
      * Get user's avatar. If none found, return the default one.
      *
@@ -96,7 +96,7 @@ if (!function_exists('avatar')) {
     }
 }
 
-if (!function_exists('avatar_exists')) {
+if (! function_exists('avatar_exists')) {
     /**
      * Check wheter user avatar exists.
      *
@@ -110,7 +110,7 @@ if (!function_exists('avatar_exists')) {
     }
 }
 
-if (!function_exists('str_obfuscate')) {
+if (! function_exists('str_obfuscate')) {
     /**
      * Obfuscate a string.
      *
