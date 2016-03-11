@@ -78,8 +78,7 @@ class Installer
         $bar->advance();
 
         // 6. Register Membership's permissions with Laravel's Gate
-        $this->registerPermissions();
-        $bar->advance();
+        $this->registerPermissions();        $bar->advance();
 
         $bar->finish();
 
@@ -268,8 +267,9 @@ class Installer
         $columns = ['username', 'email', 'password'];
 
         foreach ($columns as $key => $column) {
-            if (!\Schema::hasColumn($table, $column)) {
-                $columns[$key] = $this->command->ask("It seems you do not have the \"{$column}\" column in your \"{$table}\" table. Enter the new column name", $column);
+            if (! \Schema::hasColumn($table, $column)) {
+                $columns[$key] = $this->command->ask("It seems you do not have the \"{$column}\" column in your \"{$table}\" table. Enter the new column name",
+                    $column);
             }
         }
 
