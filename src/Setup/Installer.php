@@ -6,6 +6,7 @@ use Atorscho\Membership\Groups\DefaultGroups;
 use Atorscho\Membership\Membership;
 use Atorscho\Membership\MembershipServiceProvider;
 use Atorscho\Membership\Permissions\DefaultPermissions;
+use DB;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -52,6 +53,10 @@ class Installer
     {
         $bar = $this->command->getOutput()->createProgressBar(static::STEPS);
 
+        if (config('database.default') == 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        }
+
         // 1. Publish configs and migrations
         $this->publishFiles();
         $bar->advance();
@@ -77,6 +82,10 @@ class Installer
         $bar->advance();
 
         $bar->finish();
+
+        if (config('database.default') == 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
 
         $this->command->line('');
     }
