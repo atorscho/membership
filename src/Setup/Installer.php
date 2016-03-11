@@ -78,7 +78,8 @@ class Installer
         $bar->advance();
 
         // 6. Register Membership's permissions with Laravel's Gate
-        $this->registerPermissions();        $bar->advance();
+        $this->registerPermissions();
+        $bar->advance();
 
         $bar->finish();
 
