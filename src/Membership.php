@@ -4,6 +4,7 @@ namespace Atorscho\Membership;
 
 use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Permissions\Permission;
+use Cache;
 use Illuminate\Auth\Guard;
 use Illuminate\Filesystem\Filesystem;
 
@@ -310,7 +311,9 @@ class Membership
     {
         $class = config('auth.model');
 
-        $user = $class::with('groups', 'permissions')->findOrFail($this->auth->id());
+        $user = Cache::rememberForever('users.current', function () use ($class) {
+            return $class::with('groups', 'permissions')->findOrFail($this->auth->id());
+        });
 
         return $user;
     }

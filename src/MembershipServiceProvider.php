@@ -4,6 +4,8 @@ namespace Atorscho\Membership;
 
 use Atorscho\Membership\Setup\InstallUserMembershipSystem;
 use Blade;
+use Cache;
+use Event;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +33,11 @@ class MembershipServiceProvider extends ServiceProvider
 
         // Change foreign chars rules
         Slugify::addRules(config('membership.slugify'));
+
+        // Remove the cache from authenticated user on logout event
+        Event::listen('auth.logout', function ($user) {
+            return Cache::forget('users.current');
+        });
     }
 
     /**

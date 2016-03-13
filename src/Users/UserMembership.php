@@ -7,6 +7,7 @@ use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Groups\ManageGroups;
 use Atorscho\Membership\Permissions\ManagePermissions;
 use Atorscho\Membership\Permissions\Permission;
+use Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -37,17 +38,21 @@ trait UserMembership
     }
 
     /**
-     * Get all user's groups permissions.
+     * Get all user's group permissions.
      *
      * @return Collection
      */
-    public function groupsPermissions()
+    public function groupPermissions()
     {
         $permissions = [];
         $groups      = $this->groups;
 
         foreach ($groups as $group) {
-            foreach ($group->permissions as $permission) {
+            $groupPermissions = Cache::rememberForever('groups.permissions', function () use ($group) {
+                return $group->permissions;
+            });
+
+            foreach ($groupPermissions as $permission) {
                 $permissions[$permission->id] = $permission;
             }
         }
@@ -62,7 +67,9 @@ trait UserMembership
      */
     public function allPermissions()
     {
-        return $this->permissions->merge($this->groupsPermissions());
+        return Cache::rememberForever('permissions.all', function () {
+            return $this->permissions->merge($this->groupPermissions());
+        });
     }
 
     /**
@@ -88,7 +95,7 @@ trait UserMembership
             $groups = explode(',', $groups);
         }
 
-        // Ensure $group is always an array
+        // Ensure $groups is always an array
         $groups = (array) $groups;
 
         // Ensure group handles are in plural
@@ -97,7 +104,9 @@ trait UserMembership
         }, $groups);
 
         // Check ALL groups
-        $userGroups = $this->groups->lists('handle')->all();
+        $userGroups = Cache::rememberForever('groups.handles', function () {
+            return $this->groups->lists('handle')->all();
+        });
 
         if ($strict) {
             return count(array_intersect($userGroups, $groups)) == count($groups) && is_logged_in();
@@ -192,14 +201,5 @@ trait UserMembership
     public function scopeOnly(Builder $query, $group)
     {
         return Group::whereHandle($group)->firstOrFail()->users();
-    }
-
-    /**
-     * Set user's highest level group as its primary group.
-     */
-    public function setPrimaryGroup()
-    {
-        $this->primary_group_id = $this->groups->max('id');
-        $this->save();
     }
 }
