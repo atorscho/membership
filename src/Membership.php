@@ -309,12 +309,13 @@ class Membership
      */
     protected function getCurrentUserInstance()
     {
-        $class = config('auth.model');
+        //$class = config('auth.model');
+        //
+        // Cache the authenticated user until log out
+        //$user = Cache::rememberForever('users.current', function () use ($class) {
+        //    return $class::with('groups', 'permissions')->findOrFail($this->auth->id());
+        //});
 
-        $user = Cache::rememberForever('users.current', function () use ($class) {
-            return $class::with('groups', 'permissions')->findOrFail($this->auth->id());
-        });
-
-        return $user;
+        return auth()->user();
     }
 }

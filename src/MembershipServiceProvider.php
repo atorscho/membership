@@ -35,9 +35,9 @@ class MembershipServiceProvider extends ServiceProvider
         Slugify::addRules(config('membership.slugify'));
 
         // Remove the cache from authenticated user on logout event
-        Event::listen('auth.logout', function ($user) {
-            return Cache::forget('users.current');
-        });
+        //Event::listen('auth.logout', function ($user) {
+        //    return Cache::forget('users.current');
+        //});
     }
 
     /**
