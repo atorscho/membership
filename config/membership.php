@@ -16,9 +16,7 @@ return [
             'path'    => 'uploads/images/avatars'
         ],
         // Number of users to display per page
-        'per_page' => 10,
-        // Database table name
-        'table'    => 'users'
+        'per_page' => 10
     ],
 
     /*

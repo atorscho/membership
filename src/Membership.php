@@ -41,7 +41,7 @@ class Membership
      * Create a user and assign it to a group.
      *
      * @param array  $attributes The user attributes.
-     * @param string $group      Group handle or group model [Optional]
+     * @param Group|int|string $group      Group handle or group model [Optional]
      *
      * @return object
      */
@@ -172,7 +172,7 @@ class Membership
     /**
      * Get user's avatar. If none found, return the default one.
      *
-     * @param object|null $user User model instance. [Optional]
+     * @param object $user User model instance. [Optional]
      *
      * @return string
      */
@@ -199,7 +199,7 @@ class Membership
     /**
      * Check wheter user avatar exists.
      *
-     * @param object|null $user User model instance. [Optional]
+     * @param object $user User model instance. [Optional]
      *
      * @return bool
      */
@@ -219,15 +219,15 @@ class Membership
      *
      * (c) Laravel (Collective)
      *
-     * @param string $value
+     * @param string $string
      *
      * @return string
      */
-    public function obfuscate($value)
+    public function obfuscate($string)
     {
         $safe = '';
 
-        foreach (str_split($value) as $letter) {
+        foreach (str_split($string) as $letter) {
             if (ord($letter) > 128) {
                 return $letter;
             }

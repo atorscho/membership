@@ -6,7 +6,7 @@ if (! function_exists('current_user')) {
     /**
      * Return user instance or its model attribute.
      *
-     * @param string|null $attribute
+     * @param string $attribute
      *
      * @return object|string|bool
      */
@@ -100,7 +100,7 @@ if (! function_exists('avatar_exists')) {
     /**
      * Check wheter user avatar exists.
      *
-     * @param object|null $user User model instance. [Optional]
+     * @param object $user User model instance. [Optional]
      *
      * @return bool
      */
