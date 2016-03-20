@@ -3,6 +3,7 @@
 namespace Atorscho\Membership\Permissions;
 
 use DB;
+use Eloquent;
 use Illuminate\Database\Seeder;
 
 class DefaultPermissions extends Seeder
@@ -15,6 +16,7 @@ class DefaultPermissions extends Seeder
     public function run()
     {
         Permission::truncate();
+        Permission::reguard();
 
         $sets = $this->permissions();
 

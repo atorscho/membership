@@ -8,7 +8,9 @@ use Atorscho\Membership\MembershipServiceProvider;
 use Atorscho\Membership\Permissions\DefaultPermissions;
 use DB;
 use Illuminate\Filesystem\Filesystem;
+use Schema;
 use Symfony\Component\Console\Output\OutputInterface;
+use Validator;
 
 class Installer
 {
@@ -51,7 +53,8 @@ class Installer
      */
     public function install()
     {
-        $bar = $this->command->getOutput()->createProgressBar(static::STEPS);
+        $bar = $this->command->getOutput()
+                             ->createProgressBar(static::STEPS);
 
         if (config('database.default') == 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -75,11 +78,6 @@ class Installer
 
         // 5. Ask for superuser credentials
         $this->createSuperuser();
-        $bar->advance();
-
-        // 6. Register Membership's permissions with Laravel's Gate
-        $this->registerPermissions();
-        $bar->advance();
 
         $bar->finish();
 
@@ -157,7 +155,7 @@ class Installer
         $password = $this->askForPassword();
 
         // Validate the given credentials
-        $validator = \Validator::make(compact('email'), ['email' => 'email']);
+        $validator = Validator::make(compact('email'), ['email' => 'email']);
 
         if ($validator->fails()) {
             $this->command->error('You must specify a valid email address.');
@@ -166,13 +164,13 @@ class Installer
 
         $table = $this->checkUsersTableExistence();
 
-        list($usernameColumn, $emailColumn, $passwordColumn) = $this->checkUserColumnsExistence($table);
+        $columns = $this->checkUserColumnsExistence($table);
 
         // Create an owner
         $user = $this->membership->createOwner([
-            $usernameColumn => $username,
-            $emailColumn    => $email,
-            $passwordColumn => bcrypt($password)
+            $columns['usernameColumn'] => $username,
+            $columns['emailColumn']    => $email,
+            $columns['passwordColumn'] => bcrypt($password)
         ]);
 
         if ($this->verbosity() >= $this->minimumVerbosity()) {
@@ -265,12 +263,16 @@ class Installer
      */
     protected function checkUserColumnsExistence($table)
     {
-        $columns = ['username', 'email', 'password'];
+        $columns = [
+            'usernameColumn' => 'username',
+            'emailColumn'    => 'email',
+            'passwordColumn' => 'password'
+        ];
 
-        foreach ($columns as $key => $column) {
-            if (! \Schema::hasColumn($table, $column)) {
-                $columns[$key] = $this->command->ask("It seems you do not have the \"{$column}\" column in your \"{$table}\" table. Enter the new column name",
-                    $column);
+        foreach ($columns as $column => $name) {
+            if (! Schema::hasColumn($table, $name)) {
+                $columns[$column] = $this->command->ask("It seems you do not have the \"{$name}\" column in your \"{$table}\" table. Enter the new column name",
+                    $name);
             }
         }
 

@@ -4,17 +4,10 @@ namespace Atorscho\Membership;
 
 use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Permissions\Permission;
-use Cache;
-use Illuminate\Auth\Guard;
 use Illuminate\Filesystem\Filesystem;
 
 class Membership
 {
-    /**
-     * @var Guard
-     */
-    private $auth;
-
     /**
      * @var Filesystem
      */
@@ -33,14 +26,12 @@ class Membership
     /**
      * Membership constructor.
      *
-     * @param Guard      $auth
      * @param Filesystem $file
      * @param Group      $groups
      * @param Permission $permissions
      */
-    public function __construct(Guard $auth, Filesystem $file, Group $groups, Permission $permissions)
+    public function __construct(Filesystem $file, Group $groups, Permission $permissions)
     {
-        $this->auth        = $auth;
         $this->file        = $file;
         $this->permissions = $permissions;
         $this->groups      = $groups;
@@ -70,7 +61,7 @@ class Membership
         }
 
         // Get user model class name
-        $class = config('auth.model');
+        $class = config('auth.model') ?: config('auth.providers.users.model');
 
         // Create the user and assign it to the specific group
         $user = $class::create($attributes);
@@ -187,7 +178,7 @@ class Membership
      */
     public function avatar($user = null)
     {
-        if ($this->auth->guest() && !$user) {
+        if (auth()->guest() && !$user) {
             return '';
         }
 
@@ -309,13 +300,6 @@ class Membership
      */
     protected function getCurrentUserInstance()
     {
-        //$class = config('auth.model');
-        //
-        // Cache the authenticated user until log out
-        //$user = Cache::rememberForever('users.current', function () use ($class) {
-        //    return $class::with('groups', 'permissions')->findOrFail($this->auth->id());
-        //});
-
         return auth()->user();
     }
 }

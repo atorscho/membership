@@ -7,8 +7,8 @@ trait ManagePermissions
     /**
      * Grant permissions to the model object.
      *
-     * @param Permission|string|null $permissions Permission instance, string (separated by a "|"),
-     *                                            or an array of permissions.
+     * @param Permission|array|string $permissions Permission instance, string (separated by a "|"),
+     *                                             or an array of permissions.
      */
     public function givePermissionTo($permissions = null)
     {
@@ -48,10 +48,8 @@ trait ManagePermissions
     /**
      * Remove permissions from the model object.
      *
-     * @param Permission|string|null $permissions Permission instance, string (separated by a "|"),
-     *                                            or an array of permissions.
-     *
-     * @return int
+     * @param Permission|array|string $permissions Permission instance, string (separated by a "|"),
+     *                                             or an array of permissions.
      */
     public function removePermissionTo($permissions = null)
     {
@@ -81,8 +79,6 @@ trait ManagePermissions
             // Attach the permission
             $this->permissions()->detach($permission);
         }
-
-        return true;
     }
 
     /**

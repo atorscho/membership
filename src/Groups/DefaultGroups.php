@@ -15,6 +15,7 @@ class DefaultGroups extends Seeder
     public function run()
     {
         Group::truncate();
+        Group::reguard();
 
         $groups = $this->groups();
 

@@ -5,7 +5,6 @@ namespace Atorscho\Membership\Permissions;
 use Atorscho\Membership\Groups\Group;
 use Atorscho\Membership\Groups\ManageGroups;
 use Illuminate\Database\Eloquent\Model;
-use Slugify;
 
 class Permission extends Model
 {
@@ -72,6 +71,6 @@ class Permission extends Model
      */
     public function setHandleAttribute($handle)
     {
-        $this->attributes['handle'] = Slugify::slugify($handle ?: $this->name, config('membership.permissions.handle_separator'));
+        $this->attributes['handle'] = str_slug($handle ?: $this->name, config('membership.permissions.handle_separator'));
     }
 }

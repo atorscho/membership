@@ -7,8 +7,8 @@ trait ManageGroups
     /**
      * Add user to the specified group.
      *
-     * @param Group|string $groups Group instance, string (separated by a "|"),
-     *                             or an array of groups.
+     * @param Group|array|string $groups Group instance, string (separated by a "|"),
+     *                                   or an array of groups.
      */
     public function assignTo($groups)
     {
@@ -36,8 +36,8 @@ trait ManageGroups
     /**
      * Remove the user from the specified group.
      *
-     * @param Group|string $groups Group instance, string (separated by a "|"),
-     *                             or an array of groups.
+     * @param Group|array|string $groups Group instance, string (separated by a "|"),
+     *                                   or an array of groups.
      */
     public function removeFrom($groups)
     {

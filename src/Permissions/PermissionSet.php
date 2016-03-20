@@ -19,9 +19,7 @@ class PermissionSet extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'id' => 'int'
-    ];
+    protected $casts = ['id' => 'int'];
 
     /**
      * Disable model timestamps.

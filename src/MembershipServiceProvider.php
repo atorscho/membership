@@ -9,7 +9,6 @@ use Event;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use Slugify;
 
 class MembershipServiceProvider extends ServiceProvider
 {
@@ -30,14 +29,6 @@ class MembershipServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../database/migrations/' => base_path('/database/migrations')
         ], 'migrations');
-
-        // Change foreign chars rules
-        Slugify::addRules(config('membership.slugify'));
-
-        // Remove the cache from authenticated user on logout event
-        //Event::listen('auth.logout', function ($user) {
-        //    return Cache::forget('users.current');
-        //});
     }
 
     /**
