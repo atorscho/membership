@@ -34,7 +34,7 @@ The MIT License (MIT). Please see [License File][link-license] for more informat
 [ico-version]: https://poser.pugx.org/atorscho/membership/version
 [ico-license]: https://poser.pugx.org/atorscho/membership/license
 [ico-downloads]: https://poser.pugx.org/atorscho/membership/downloads
-[ico-styleci]: https://styleci.io/repos/40326779/shield
+[ico-styleci]: https://styleci.io/repos/40326779/shield?style=flat
 
 [link-packagist]: https://packagist.org/packages/atorscho/membership
 [link-downloads]: https://packagist.org/packages/atorscho/membership
