@@ -20,7 +20,7 @@ Please see [CONTRIBUTING][link-contributing] for details.
 
 ### Security
 
-If you discover any security related issues, please contact me via the form below instead of using the issue tracker.
+If you discover any security related issues, please email `contact@alextorscho.com` instead of using the issue tracker.
 
 ### Credits
 
