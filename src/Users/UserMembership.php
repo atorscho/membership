@@ -171,7 +171,7 @@ trait UserMembership
      * @return bool
      * @throws IncorrectParameterType
      */
-    protected function owns($model, $column = 'user_id')
+    public function owns($model, $column = 'user_id')
     {
         if (! $model instanceof Model) {
             throw new IncorrectParameterType('The $model parameter must be an instance of the Eloquent Model.');
