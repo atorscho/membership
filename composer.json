@@ -1,6 +1,6 @@
 {
     "name": "atorscho/membership",
-    "description": "Role-based access control system for Laravel 5.1.",
+    "description": "Powerful user membership system for Laravel 5 with user groups and permissions.",
     "keywords": [
         "membership",
         "users",
