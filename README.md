@@ -44,4 +44,4 @@ The MIT License (MIT). Please see [License File][link-license] for more informat
 [link-contributing]: https://github.com/atorscho/membership/blob/master/CONTRIBUTING.md
 [link-changelog]: https://github.com/atorscho/membership/blob/master/CHANGELOG.md
 [link-license]: https://github.com/atorscho/membership/blob/master/LICENSE.md
-[link-howto]: https://alextorscho.com/docs/user-membership/how-to-use
+[link-howto]: https://alextorscho.com/docs/user-membership
