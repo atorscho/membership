@@ -1,55 +1,46 @@
-# Uservel
-
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![StyleCI][ico-styleci]][link-styleci]
 [![Software License][ico-license]][link-license]
 
-> Currently under development.
+Powerful user membership system for Laravel 5 with user groups and permissions.
 
-## Install
+### How To Use
+See the [documentation][link-howto] to learn how to use "Membership".
 
-Via Composer
-
-``` bash
-$ composer require atorscho/membership
-```
-
-## Usage
-
-
-
-## Change log
+### Change log
 
 Please see [CHANGELOG][link-changelog] for more information what has changed recently.
 
-## Contributing
+### Contributing
 
 Please see [CONTRIBUTING][link-contributing] for details.
 
-## Security
+### Security
 
-If you discover any security related issues, please email `contact@alextorscho.com` instead of using the issue tracker.
+If you discover any security related issues, please contact me via the form below instead of using the issue tracker.
 
-## Credits
+### Credits
 
 - [Alex Torscho][link-author]
 - [All Contributors][link-contributors]
 
-## License
+### License
 
 The MIT License (MIT). Please see [License File][link-license] for more information.
 
-[ico-version]: https://img.shields.io/github/release/atorscho/membership.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/40326779/shield
-[ico-downloads]: https://img.shields.io/packagist/dt/atorscho/membership.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-version]: https://poser.pugx.org/atorscho/membership/version
+[ico-license]: https://poser.pugx.org/atorscho/membership/license
+[ico-downloads]: https://poser.pugx.org/atorscho/membership/downloads
+[ico-styleci]: https://styleci.io/repos/26128680/shield
 
+[link-branch-v1]: https://github.com/atorscho/membership/tree/v1
 [link-packagist]: https://packagist.org/packages/atorscho/membership
 [link-downloads]: https://packagist.org/packages/atorscho/membership
-[link-styleci]: https://styleci.io/repos/40326779
-[link-changelog]: https://github.com/atorscho/membership/blob/master/CHANGELOG.md
-[link-contributing]: https://github.com/atorscho/membership/blob/master/CONTRIBUTING.md
-[link-license]: https://github.com/atorscho/membership/blob/master/LICENSE.md
+[link-styleci]: https://styleci.io/repos/26128680
 [link-author]: https://github.com/atorscho
-[link-contributors]: https://github.com/atorscho/membership/contributors
+[link-contributors]: https://github.com/atorscho/membership/graphs/contributors
+[link-contributing]: https://github.com/atorscho/membership/blob/master/CONTRIBUTING.md
+[link-changelog]: https://github.com/atorscho/membership/blob/master/CHANGELOG.md
+[link-license]: https://github.com/atorscho/membership/blob/master/LICENSE.md
+[link-howto]: http://alextorscho.com/docs/user-membership/how-to-use

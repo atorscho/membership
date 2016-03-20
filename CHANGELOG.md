@@ -1,6 +1,5 @@
 # Changelog
 
-All Notable changes to `membership` will be documented in this file
+All Notable changes to `membership` will be documented in this file.
 
-## First Release - 1.0.0 [2015-10-09]
-
+## First Release - 1.0.0 [2016-03-20]
