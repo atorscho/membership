@@ -8,5 +8,5 @@
 * [API](docs/api.md)
    * [Classes & Methods](docs/classes_methods.md)
    * [Helpers](docs/helpers.md)
-* Configuration
+* [Configuration](docs/configuration.md)
 
