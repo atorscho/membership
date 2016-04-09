@@ -6,4 +6,5 @@
    * [Groups & Permissions](docs/groups_permissions.md)
    * [Access Control](docs/access_control.md)
 * [API](docs/api.md)
+   * Classes & Methods
 
