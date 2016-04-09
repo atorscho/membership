@@ -7,27 +7,27 @@
 
 Powerful user membership system for Laravel 5 with user groups and permissions.
 
-### How To Use
-See the [documentation][link-howto] to learn how to use "Membership".
+## Documentation
+See the [documentation][link-docs] to learn how to use "Membership".
 
-### Change log
+## Change log
 
 Please see [CHANGELOG][link-changelog] for more information what has changed recently.
 
-### Contributing
+## Contributing
 
 Please see [CONTRIBUTING][link-contributing] for details.
 
-### Security
+## Security
 
 If you discover any security related issues, please email `contact@alextorscho.com` instead of using the issue tracker.
 
-### Credits
+## Credits
 
 - [Alex Torscho][link-author]
 - [All Contributors][link-contributors]
 
-### License
+## License
 
 The MIT License (MIT). Please see [License File][link-license] for more information.
 
@@ -44,4 +44,4 @@ The MIT License (MIT). Please see [License File][link-license] for more informat
 [link-contributing]: https://github.com/atorscho/membership/blob/master/CONTRIBUTING.md
 [link-changelog]: https://github.com/atorscho/membership/blob/master/CHANGELOG.md
 [link-license]: https://github.com/atorscho/membership/blob/master/LICENSE.md
-[link-howto]: https://alextorscho.com/docs/user-membership
+[link-docs]: https://atorscho.gitbooks.io/membership/content/docs/installation.html
