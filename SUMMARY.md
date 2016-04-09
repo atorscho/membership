@@ -1,8 +1,9 @@
 # Summary
 
+* [Introduction](README.md)
 * [Installation](docs/installation.md)
 * [How To Use](docs/howto.md)
-   * Groups & Permissions
+   * [Groups & Permissions](docs/groups_permissions.md)
    * Access Control
    * New article
 
