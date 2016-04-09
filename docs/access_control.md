@@ -1,6 +1,6 @@
 # Access Control
 
-There are various ways to restrict pages and content to specific users.
+There are several ways to restrict pages and content to specific users.
 
 ## Blade Directives
 
