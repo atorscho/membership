@@ -7,4 +7,5 @@
    * [Access Control](docs/access_control.md)
 * [API](docs/api.md)
    * [Classes & Methods](docs/classes_methods.md)
+   * Helpers
 
