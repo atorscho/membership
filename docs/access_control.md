@@ -64,5 +64,5 @@ class UsersController extends AdminController
 }
 ```
 
-[link-laravel-gate]: /installation.md#laravel-gate
+[link-laravel-gate]: /installation.html#laravel-gate
 [link-api]: /docs/user-membership/api/classes-and-methods
