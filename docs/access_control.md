@@ -10,13 +10,13 @@ To enable this feature, do not forget to call `\Membership::registerPermissions(
 
 ``` html
 <ul>
-	<li>Home</li>
-	<li>Products</li>
-	<li>Services</li>
-	<li>About</li>
-	@can('access.acp')
-		<li>Admin</li>
-	@endcan
+    <li>Home</li>
+    <li>Products</li>
+    <li>Services</li>
+    <li>About</li>
+    @can('access.acp')
+        <li>Admin</li>
+    @endcan
 </ul>
 ```
 
@@ -24,13 +24,13 @@ The directive `@is` is useful when you need to check for a user group belonging.
 
 ``` html
 @is('banned')
-	<div class="ui negative message">
-		You cannot access the forums.
+    <div class="ui negative message">
+        You cannot access the forums.
 	</div>
 @else
-	<div class="ui negative message">
-		Welcome to our forums!
-	</div>
+    <div class="ui negative message">
+        Welcome to our forums!
+    </div>
 @endis
 ```
 
@@ -55,11 +55,11 @@ Sometimes you need to restrict access to a specific page. You can do so with two
 ``` php
 class UsersController extends AdminController
 {
-	public function __construct()
-	{
-		$this->middleware('access.acp');
-		$this->middleware('can:create.users', ['only' => ['create', 'store']]);
-		$this->middleware('can:delete.users', ['only' => 'destroy']);
+    public function __construct()
+    {
+        $this->middleware('access.acp');
+        $this->middleware('can:create.users', ['only' => ['create', 'store']]);
+        $this->middleware('can:delete.users', ['only' => 'destroy']);
 	}
 }
 ```
