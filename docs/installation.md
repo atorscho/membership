@@ -5,7 +5,7 @@
 In order to install "Membership", you need to require it with composer:
 
 ```json
-composer required "atorscho/membership"
+composer require "atorscho/membership"
 ```
 
 ## Service Provider
@@ -20,7 +20,7 @@ Atorscho\Membership\MembershipServiceProvider::class,
 
 You need also to update your `User` model. Simply use the `UserMembership` trait.
 
-``` php
+```php
 <?php
 
 namespace App;
@@ -31,7 +31,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use UserMembership;
-    
+
     // ...
 }
 ```
@@ -44,17 +44,17 @@ The final step is to run new artisan command:
 $ php artisan membership:install
 ```
 
-The installer has 4 steps:
-1. Publishing package files;
-2. Migrating the database;
-3. Populating the database with default data;
+The installer has 4 steps:  
+1. Publishing package files;  
+2. Migrating the database;  
+3. Populating the database with default data;  
 4. Creating a super-user with all permissions.
 
 ## Laravel Gate
 
 You may also register package's permissions via Laravel Gate by adding `Membership::registerPermissions()` to the method:
 
-``` php
+```php
 // file: app/Providers/AuthServiceProvider.php
 
 class AuthServiceProvider extends ServiceProvider
@@ -75,3 +75,4 @@ class AuthServiceProvider extends ServiceProvider
 ```
 
 This way you will be able to use `@can` Blade directive.
+
