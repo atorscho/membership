@@ -38,6 +38,11 @@
             "Atorscho\\Membership\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Atorscho\\Membership\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "test": "phpunit"
     }
