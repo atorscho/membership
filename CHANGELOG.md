@@ -2,4 +2,7 @@
 
 All Notable changes to `membership` will be documented in this file.
 
-## First Release - 1.0.0 [2016-03-20]
+## Next Release - 2.0.0
+
+
+## 1.0.0 [2016-03-20]
