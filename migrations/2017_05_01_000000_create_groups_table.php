@@ -19,18 +19,7 @@ class CreateGroupsTable extends Migration
             $table->string('handle')->index()->unique();
             $table->string('open_tag')->nullable();
             $table->string('close_tag')->nullable();
-        });
-
-        Schema::create('user_groups', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('group_id');
-
-            $table->foreign('user_id')->references('id')->on(config('membership.users.table'));
-            $table->foreign('group_id')->references('id')->on('groups');
-
-            $table->unique(['user_id', 'group_id']);
-            $table->index(['user_id', 'group_id']);
+            $table->boolean('public')->default(false);
         });
     }
 
@@ -41,7 +30,6 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_groups');
         Schema::dropIfExists('groups');
     }
 }

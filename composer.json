@@ -17,7 +17,7 @@
         {
             "name": "Alex Torscho",
             "email": "contact@alextorscho.com",
-            "homepage": "http://alextorscho.com",
+            "homepage": "https://alextorscho.com",
             "role": "Developer"
         }
     ],
@@ -26,9 +26,10 @@
         "illuminate/support": "5.4"
     },
     "require-dev": {
+        "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpspec/phpspec": "~2.1",
-        "phpunit/phpunit" : "4.*"
+        "phpunit/phpunit": "~5.7",
+        "laravel/laravel": "5.4.*"
     },
     "autoload": {
         "files": [
@@ -41,9 +42,9 @@
     "autoload-dev": {
         "psr-4": {
             "Atorscho\\Membership\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "phpunit"
+        },
+        "classmap": [
+            "migrations"
+        ]
     }
 }
