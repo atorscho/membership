@@ -43,17 +43,17 @@ class GroupTest extends TestCase
     /** @test */
     public function a_list_of_permissions_can_be_attached_to_the_group()
     {
-        $group = $this->createGroup(['name' => 'Admins']);
+        $group       = $this->createGroup(['name' => 'Admins']);
         $permission  = $this->createPermission(['handle' => 'create', 'type' => 'users']);
         $permission2 = $this->createPermission(['handle' => 'update', 'type' => 'users']);
 
-        $group->attach($permission, $permission2);
+        $group->grantPermissions($permission, $permission2);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 1,
         ]);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 2,
         ]);
     }
@@ -61,17 +61,17 @@ class GroupTest extends TestCase
     /** @test */
     public function an_array_of_permissions_can_be_attached_to_the_group()
     {
-        $group = $this->createGroup(['name' => 'Admins']);
+        $group       = $this->createGroup(['name' => 'Admins']);
         $permission  = $this->createPermission(['handle' => 'create', 'type' => 'users']);
         $permission2 = $this->createPermission(['handle' => 'update', 'type' => 'users']);
 
-        $group->attach([$permission, $permission2]);
+        $group->grantPermissions([$permission, $permission2]);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 1,
         ]);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 2,
         ]);
     }
@@ -83,13 +83,13 @@ class GroupTest extends TestCase
         $this->createPermission(['handle' => 'create', 'type' => 'users']);
         $this->createPermission(['handle' => 'update', 'type' => 'users']);
 
-        $group->attach(Permission::all());
+        $group->grantPermissions(Permission::all());
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 1,
         ]);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 2,
         ]);
     }
@@ -101,13 +101,13 @@ class GroupTest extends TestCase
         $this->createPermission(['handle' => 'create', 'type' => 'users']);
         $this->createPermission(['handle' => 'update', 'type' => 'users']);
 
-        $group->attach('users.create', 2);
+        $group->grantPermissions('users.create', 2);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 1,
         ]);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 2,
         ]);
     }
@@ -119,29 +119,29 @@ class GroupTest extends TestCase
         $this->createPermission(['handle' => 'create', 'type' => 'users']);
         $this->createPermission(['handle' => 'update', 'type' => 'users']);
 
-        $group->attach(Permission::all());
+        $group->grantPermissions(Permission::all());
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 1
         ]);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 2
         ]);
 
-        $group->detach(Permission::find(1));
+        $group->losePermissions(Permission::find(1));
         $this->assertDatabaseMissing('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 1
         ]);
         $this->assertDatabaseHas('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 2
         ]);
 
-        $group->detach(2);
+        $group->losePermissions(2);
         $this->assertDatabaseMissing('group_permissions', [
-            'group_id' => 1,
+            'group_id'      => 1,
             'permission_id' => 2
         ]);
     }
@@ -149,7 +149,7 @@ class GroupTest extends TestCase
     /** @test */
     public function a_user_can_be_assigned_to_the_group()
     {
-        $user = $this->createUser();
+        $user  = $this->createUser();
         $group = $this->createGroup(['name' => 'Admins']);
 
         $group->assign($user);
@@ -162,7 +162,7 @@ class GroupTest extends TestCase
     /** @test */
     public function a_user_can_be_unassigned_from_the_group()
     {
-        $user = $this->createUser();
+        $user  = $this->createUser();
         $group = $this->createGroup(['name' => 'Admins']);
 
         $group->assign($user);
@@ -181,7 +181,7 @@ class GroupTest extends TestCase
     /** @test */
     public function it_can_check_whether_the_group_has_a_given_user()
     {
-        $user = $this->createUser();
+        $user  = $this->createUser();
         $group = $this->createGroup(['name' => 'Admins']);
 
         $group->assign($user);
@@ -189,5 +189,31 @@ class GroupTest extends TestCase
 
         $group->unassign($user);
         $this->assertFalse($group->hasAssigned($user));
+    }
+
+    /** @test */
+    public function a_group_can_have_leaders()
+    {
+        $user  = $this->createUser();
+        $group = $this->createGroup();
+
+        $group->addLeader($user);
+        $this->assertDatabaseHas('group_leaders', [
+            'user_id'  => 1,
+            'group_id' => 1,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_check_whether_the_user_is_a_leader_of_a_group()
+    {
+        $user  = $this->createUser();
+        $group = $this->createGroup();
+
+        $this->assertFalse($group->hasLeader($user));
+
+        $group->addLeader($user);
+
+        $this->assertTrue($group->hasLeader($user));
     }
 }

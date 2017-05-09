@@ -26,6 +26,13 @@ class Permission extends Model
     public $timestamps = false;
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['code'];
+
+    /**
      * Find a permissions by their type.
      */
     public static function searchType(string $type, array $attributes = ['*'])
@@ -114,5 +121,13 @@ class Permission extends Model
         }
 
         return $this->users()->where('user_id', is_int($user) ? $user : $user->id)->exists();
+    }
+
+    /**
+     * Permission's code name.
+     */
+    public function getCodeAttribute(): string
+    {
+        return "{$this->type}.{$this->handle}";
     }
 }

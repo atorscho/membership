@@ -51,7 +51,7 @@ class MembershipableTest extends TestCase
     {
         $user = $this->createUser();
 
-        $user->attach($this->createPermission(), $this->createPermission());
+        $user->grantPermissions($this->createPermission(), $this->createPermission());
         $this->assertDatabaseHas('user_permissions', [
             'user_id'       => 1,
             'permission_id' => 1,
@@ -61,16 +61,92 @@ class MembershipableTest extends TestCase
             'permission_id' => 2,
         ]);
 
-        $user->attach([$this->createPermission()]);
+        $user->grantPermissions([$this->createPermission()]);
         $this->assertDatabaseHas('user_permissions', [
             'user_id'       => 1,
             'permission_id' => 3,
         ]);
 
-        $user->attach(collect([$this->createPermission()]));
+        $user->grantPermissions(collect([$this->createPermission()]));
         $this->assertDatabaseHas('user_permissions', [
             'user_id'       => 1,
             'permission_id' => 4,
         ]);
+    }
+
+    /** @test */
+    public function permissions_can_be_detached_from_the_user()
+    {
+        $user = $this->createUser();
+
+        $user->grantPermissions($this->createPermission(), $this->createPermission());
+        $user->losePermissions(1, 2);
+        $this->assertDatabaseMissing('user_permissions', [
+            'user_id'       => 1,
+            'permission_id' => 1,
+        ]);
+        $this->assertDatabaseMissing('user_permissions', [
+            'user_id'       => 1,
+            'permission_id' => 2,
+        ]);
+    }
+
+    /** @test */
+    public function a_user_can_be_marked_as_leader_of_a_group()
+    {
+        $user  = $this->createUser();
+        $group = $this->createGroup();
+
+        $user->makeLeaderOf($group);
+        $this->assertDatabaseHas('group_leaders', [
+            'user_id'  => 1,
+            'group_id' => 1
+        ]);
+    }
+
+    /** @test */
+    public function it_can_check_whether_the_user_is_a_leader_of_a_group()
+    {
+        $user  = $this->createUser();
+        $group = $this->createGroup();
+
+        $this->assertFalse($user->isLeaderOf($group));
+
+        $user->makeLeaderOf($group);
+
+        $this->assertTrue($user->isLeaderOf($group));
+    }
+
+    /** @test */
+    public function it_checks_whether_the_user_has_permission_through_its_groups()
+    {
+        $user  = $this->createUser();
+        $group = $this->createGroup();
+        $user->assignTo($group);
+        $user->assignTo($this->createGroup());
+
+        $group->grantPermissions(
+            $perm1 = $this->createPermission(),
+            $perm2 = $this->createPermission(),
+            $perm3 = $this->createPermission()
+        );
+
+        $this->assertTrue($user->hasPermission($perm1->code));
+        $this->assertFalse($user->hasPermission('some-inexistent-permission'));
+    }
+
+    /** @test */
+    public function it_checks_whether_the_user_has_own_permission()
+    {
+        $user  = $this->createUser();
+
+        $user->grantPermissions(
+            $perm1 = $this->createPermission(),
+            $perm2 = $this->createPermission(),
+            $perm3 = $this->createPermission()
+        );
+
+        $this->assertTrue($user->hasPermission($perm1->code));
+        $this->assertFalse($user->hasPermission('some-inexistent-permission'));
     }
 }

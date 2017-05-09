@@ -44,6 +44,10 @@ trait Assignable
 
     /**
      * Resolve the group parameter.
+     *
+     * @param int|string|Group $group
+     *
+     * @return Group|int
      */
     protected function resolveGroup($group)
     {

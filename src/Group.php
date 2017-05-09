@@ -16,7 +16,7 @@ class Group extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle', 'open_tag', 'close_tag', 'public'];
+    protected $fillable = ['name', 'handle', 'open_tag', 'close_tag', 'sizelimit', 'public'];
 
     /**
      * Disable timestamps population.
@@ -26,7 +26,7 @@ class Group extends Model
     public $timestamps = false;
 
     /**
-     * Group's users.
+     * Get group's users.
      */
     public function users(): BelongsToMany
     {
@@ -34,7 +34,15 @@ class Group extends Model
     }
 
     /**
-     * Group's permissions.
+     * Get group's leaders.
+     */
+    public function leaders(): BelongsToMany
+    {
+        return $this->belongsToMany(config('auth.providers.users.model'), 'group_leaders');
+    }
+
+    /**
+     * Get group's permissions.
      */
     public function permissions(): BelongsToMany
     {
@@ -42,11 +50,11 @@ class Group extends Model
     }
 
     /**
-     * Attach given permissions to the group.
+     * Grant given permissions to the group.
      *
      * @param array|Permission|Collection|string $permissions
      */
-    public function attach($permissions): void
+    public function grantPermissions($permissions): void
     {
         if (!is_array($permissions) && !$permissions instanceof Collection) {
             $permissions = func_get_args();
@@ -60,11 +68,11 @@ class Group extends Model
     }
 
     /**
-     * Detach given permissions from the group.
+     * Lose given permissions from the group.
      *
      * @param array|Permission|Collection $permissions
      */
-    public function detach($permissions): void
+    public function losePermissions($permissions): void
     {
         if (!is_array($permissions) && !$permissions instanceof Collection) {
             $permissions = func_get_args();
@@ -107,6 +115,28 @@ class Group extends Model
     public function hasAssigned($user): bool
     {
         return $this->users()->where('user_id', $user->id)->exists();
+    }
+
+    /**
+     * Add a leader to the group.
+     *
+     * @param int|Authenticatable $user
+     */
+    public function addLeader($user): void
+    {
+        $this->leaders()->attach($user);
+    }
+
+    /**
+     * Determine whether a given user is leader of the group.
+     *
+     * @param int|Authenticatable $user
+     *
+     * @return bool
+     */
+    public function hasLeader($user): bool
+    {
+        return $this->leaders()->where('user_id', $user->id)->exists();
     }
 
     /**

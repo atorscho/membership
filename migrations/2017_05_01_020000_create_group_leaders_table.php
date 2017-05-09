@@ -15,7 +15,14 @@ class CreateGroupLeadersTable extends Migration
     {
         Schema::create('group_leaders', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('group_id');
+
+            $table->foreign('user_id')->references('id')->on(config('membership.users.table'));
+            $table->foreign('group_id')->references('id')->on('groups');
+
+            $table->unique(['user_id', 'group_id']);
+            $table->index(['user_id', 'group_id']);
         });
     }
 

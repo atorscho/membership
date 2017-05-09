@@ -30,6 +30,22 @@ class PermissionTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_permission_code()
+    {
+        $permission = $this->createPermission(['name' => 'Create', 'type' => 'users']);
+
+        $this->assertEquals('users.create', $permission->code);
+    }
+
+    /** @test */
+    public function permission_code_is_present_in_the_serialized_form()
+    {
+        $permission = $this->createPermission(['name' => 'Create', 'type' => 'users']);
+
+        $this->assertArrayHasKey('code', $permission->toArray());
+    }
+
+    /** @test */
     public function it_can_search_for_permissions_using_their_type()
     {
         $this->createPermission(['type' => 'users']);

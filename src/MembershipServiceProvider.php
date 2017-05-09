@@ -2,6 +2,7 @@
 
 namespace Atorscho\Membership;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class MembershipServiceProvider extends ServiceProvider
@@ -33,5 +34,14 @@ class MembershipServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/membership.php', 'membership'
         );
+
+        // Register the Façade
+        $this->app->bind('membership', function ($app) {
+            return $app->make(Membership::class);
+        });
+        $this->app->booting(function () {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('Membership', MembershipFacade::class);
+        });
     }
 }

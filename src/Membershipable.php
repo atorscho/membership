@@ -18,6 +18,14 @@ trait Membershipable
     }
 
     /**
+     * Groups the user is leading.
+     */
+    public function leadingGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'group_leaders');
+    }
+
+    /**
      * User's own permissions.
      */
     public function permissions(): BelongsToMany
@@ -26,11 +34,11 @@ trait Membershipable
     }
 
     /**
-     * Attach given permissions to the group.
+     * Grant given permissions to the user.
      *
      * @param array|Permission|Collection|string $permissions
      */
-    public function attach($permissions): void
+    public function grantPermissions($permissions): void
     {
         if (!is_array($permissions) && !$permissions instanceof Collection) {
             $permissions = func_get_args();
@@ -41,6 +49,64 @@ trait Membershipable
 
             $this->permissions()->attach($permission);
         }
+    }
+
+    /**
+     * Lose given permissions from the group.
+     *
+     * @param array|Permission|Collection|string $permissions
+     */
+    public function losePermissions($permissions): void
+    {
+        if (!is_array($permissions) && !$permissions instanceof Collection) {
+            $permissions = func_get_args();
+        }
+
+        foreach ($permissions as $permission) {
+            $permission = $this->resolvePermission($permission);
+
+            $this->permissions()->detach($permission);
+        }
+    }
+
+    /**
+     * Check whether the user has given permission.
+     */
+    public function hasPermission(string $code): bool
+    {
+        // Check user's own permissions
+        if ($this->permissions->pluck('code')->contains($code)) {
+            return true;
+        }
+
+        // Check user's groups permissions
+        return $this->groups()->with('permissions')->get()->map->permissions->flatten()->pluck('code')->contains($code);
+    }
+
+    /**
+     * Make the user leader of a group.
+     *
+     * @param int|string|Group $group
+     */
+    public function makeLeaderOf($group): void
+    {
+        $group = $this->resolveGroup($group);
+
+        $this->leadingGroups()->attach($group);
+    }
+
+    /**
+     * Determine whether a given user is leader of the group.
+     *
+     * @param int|string|Group $group
+     *
+     * @return bool
+     */
+    public function isLeaderOf($group): bool
+    {
+        $group = $this->resolveGroup($group);
+
+        return $this->leadingGroups()->where('group_id', is_int($group) ? $group : $group->id)->exists();
     }
 
     /**
