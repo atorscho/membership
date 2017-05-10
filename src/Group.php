@@ -16,7 +16,7 @@ class Group extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'handle', 'open_tag', 'close_tag', 'sizelimit', 'public'];
+    protected $fillable = ['name', 'handle', 'open_tag', 'close_tag', 'limit', 'public'];
 
     /**
      * Disable timestamps population.
@@ -24,6 +24,16 @@ class Group extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Cast attributes to relevant types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'limit' => 'int',
+        'public'    => 'bool'
+    ];
 
     /**
      * Get group's users.
@@ -89,10 +99,18 @@ class Group extends Model
      * Assign a user to the group.
      *
      * @param int|Authenticatable $user
+     *
+     * @return bool Whether the user has been assigned.
      */
-    public function assign($user): void
+    public function assign($user): bool
     {
+        if ($this->limitExceeded()) {
+            return false;
+        }
+
         $this->users()->attach($user);
+
+        return true;
     }
 
     /**
@@ -163,5 +181,15 @@ class Group extends Model
         }
 
         return $permission;
+    }
+
+    /**
+     * Check whether the limit has been exceeded.
+     *
+     * 0 disables any limit.
+     */
+    protected function limitExceeded(): bool
+    {
+        return $this->limit !== 0 && $this->users()->count() >= $this->limit;
     }
 }

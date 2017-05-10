@@ -2,6 +2,7 @@
 
 namespace Atorscho\Membership;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
@@ -72,15 +73,20 @@ trait Membershipable
     /**
      * Check whether the user has given permission.
      */
-    public function hasPermission(string $code): bool
+    public function hasPermission(string $permission, ?Model $model = null, string $userForeignKey = 'user_id'): bool
     {
+        // Check model's ownership
+        if ($model && $model->{$userForeignKey} == $this->id) {
+            return true;
+        }
+
         // Check user's own permissions
-        if ($this->permissions->pluck('code')->contains($code)) {
+        if ($this->permissions->pluck('code')->contains($permission)) {
             return true;
         }
 
         // Check user's groups permissions
-        return $this->groups()->with('permissions')->get()->map->permissions->flatten()->pluck('code')->contains($code);
+        return $this->groups()->with('permissions')->get()->map->permissions->flatten()->pluck('code')->contains($permission);
     }
 
     /**

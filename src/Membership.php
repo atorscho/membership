@@ -2,6 +2,10 @@
 
 namespace Atorscho\Membership;
 
+use App\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
+
 class Membership
 {
     /**
@@ -40,5 +44,24 @@ class Membership
         }
 
         return $user;
+    }
+
+    /**
+     * Register Gate policies in order to integrate
+     * Membership into Laravel Authorization system.
+     */
+    public function registerGatePolicies(): void
+    {
+        if (!\Schema::hasTable('permissions')) {
+            return;
+        }
+
+        $permissions = Permission::all(['handle', 'type']);
+
+        foreach ($permissions as $permission) {
+            Gate::define($permission->code, function (User $user, ?Model $model = null, string $userForeignKey = 'user_id') use ($permission) {
+                return $user->hasPermission($permission->code, $model, $userForeignKey);
+            });
+        }
     }
 }

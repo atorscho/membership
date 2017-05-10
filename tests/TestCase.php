@@ -96,7 +96,8 @@ class TestCase extends \Tests\TestCase
         $default = [
             'name'      => $word,
             'open_tag'  => null,
-            'close_tag' => null
+            'close_tag' => null,
+            'limit'     => 0
         ];
 
         if (!array_key_exists('name', $attributes)) {

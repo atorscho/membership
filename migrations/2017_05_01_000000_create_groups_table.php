@@ -19,7 +19,7 @@ class CreateGroupsTable extends Migration
             $table->string('handle')->index()->unique();
             $table->string('open_tag')->nullable();
             $table->string('close_tag')->nullable();
-            $table->unsignedInteger('sizelimit')->default(0);
+            $table->unsignedInteger('limit')->default(0);
             $table->boolean('public')->default(false);
         });
     }

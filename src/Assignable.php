@@ -5,7 +5,7 @@ namespace Atorscho\Membership;
 trait Assignable
 {
     /**
-     * Assign the permission to a group.
+     * Assign the model to a group.
      *
      * @param int|string|Group $group
      */
@@ -17,7 +17,7 @@ trait Assignable
     }
 
     /**
-     * Unassign the permission from a group.
+     * Unassign the model from a group.
      *
      * @param int|string|Group $group
      */
@@ -29,7 +29,7 @@ trait Assignable
     }
 
     /**
-     * Check whether the permission is assigned to a group.
+     * Check whether the model is assigned to a group.
      *
      * @param int|string|Group $group
      *

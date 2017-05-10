@@ -35,7 +35,7 @@ class MembershipServiceProvider extends ServiceProvider
             __DIR__.'/../config/membership.php', 'membership'
         );
 
-        // Register the Façade
+        // Register the Facade
         $this->app->bind('membership', function ($app) {
             return $app->make(Membership::class);
         });

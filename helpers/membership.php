@@ -1,5 +1,7 @@
 <?php
 
+use Atorscho\Membership\Group;
+
 if (!function_exists('is_logged_in')) {
     /**
      * Determine if the current user is authenticated.
@@ -31,5 +33,29 @@ if (!function_exists('user')) {
     function user(?string $attribute = null)
 	{
         return Membership::user($attribute);
+	}
+}
+
+if (!function_exists('user_can')) {
+    /**
+     * Check whether the user has given permission.
+     */
+    function user_can(string $code, ?Model $model = null, string $userForeignKey = 'user_id'): bool
+    {
+        return user()->hasPermission($code, $model, $userForeignKey);
+	}
+}
+
+if (!function_exists('user_is')) {
+    /**
+     * Check whether the user is assigned to a group.
+     *
+     * @param int|string|Group $group
+     *
+     * @return bool
+     */
+    function user_is($group): bool
+    {
+        return user()->isAssignedTo($group);
 	}
 }

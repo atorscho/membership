@@ -216,4 +216,25 @@ class GroupTest extends TestCase
 
         $this->assertTrue($group->hasLeader($user));
     }
+
+    /** @test */
+    public function a_group_cannot_exceed_its_limit()
+    {
+        $group = $this->createGroup([
+            'limit' => 5
+        ]);
+
+        $group->assign($this->createUser());
+        $group->assign($this->createUser());
+        $group->assign($this->createUser());
+        $group->assign($this->createUser());
+        $group->assign($this->createUser());
+
+        $this->assertCount(5, $group->users);
+
+        $group->assign($this->createUser());
+        $group->assign($this->createUser());
+
+        $this->assertCount(5, $group->fresh()->users);
+    }
 }
