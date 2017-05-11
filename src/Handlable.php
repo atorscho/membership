@@ -2,6 +2,15 @@
 
 namespace Atorscho\Membership;
 
+/**
+ * Trait Handlable
+ * Ensure the "handle" attribute in Group and Permission records
+ * is always set and is in correct format.
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
 trait Handlable
 {
     /**

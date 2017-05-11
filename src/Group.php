@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class Group
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
 class Group extends Model
 {
     use Handlable;
@@ -31,8 +38,8 @@ class Group extends Model
      * @var array
      */
     protected $casts = [
-        'limit' => 'int',
-        'public'    => 'bool'
+        'limit'  => 'int',
+        'public' => 'bool'
     ];
 
     /**
@@ -99,16 +106,31 @@ class Group extends Model
      * Assign a user to the group.
      *
      * @param int|Authenticatable $user
+     * @param bool                $primary
      *
      * @return bool Whether the user has been assigned.
      */
-    public function assign($user): bool
+    public function assign($user, bool $primary = false): bool
     {
         if ($this->limitExceeded()) {
             return false;
         }
 
         $this->users()->attach($user);
+
+        // Set user's primary group
+        if ($primary) {
+            // Get user's model name
+            $userModel = config('auth.providers.users.model');
+
+            // In case $user is an integer, find the relevant model record
+            if (is_int($user)) {
+                $user = $userModel::find($user);
+            }
+
+            $user->primary_group_id = $this->id;
+            $user->save();
+        }
 
         return true;
     }

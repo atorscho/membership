@@ -237,4 +237,15 @@ class GroupTest extends TestCase
 
         $this->assertCount(5, $group->fresh()->users);
     }
+
+    /** @test */
+    public function it_sets_users_primary_group_when_assigning_it_to_a_group()
+    {
+        $user  = $this->createUser();
+        $group = $this->createGroup();
+
+        $group->assign($user, true);
+
+        $this->assertEquals($group->id, $user->primary_group_id);
+    }
 }

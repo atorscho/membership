@@ -2,6 +2,15 @@
 
 namespace Atorscho\Membership;
 
+/**
+ * Trait Assignable
+ * This trait is used in Permission and User models by default.
+ * It gives models the ability to be assigned to groups.
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
 trait Assignable
 {
     /**

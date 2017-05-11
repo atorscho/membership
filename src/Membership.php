@@ -6,6 +6,14 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * Class Membership
+ * Varios helper methods and shorthands.
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
 class Membership
 {
     /**

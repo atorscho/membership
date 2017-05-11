@@ -4,6 +4,13 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Class CreatePermissionsTable
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
 class CreatePermissionsTable extends Migration
 {
     /**

@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
+/**
+ * Trait Membershipable
+ * This trait must be included in the User model
+ * in order to get package's RBAC features.
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
 trait Membershipable
 {
     use Assignable;
@@ -86,7 +95,9 @@ trait Membershipable
         }
 
         // Check user's groups permissions
-        return $this->groups()->with('permissions')->get()->map->permissions->flatten()->pluck('code')->contains($permission);
+        return $this->groups()->with('permissions')->get()->map->permissions->flatten()
+                                                                            ->pluck('code')
+                                                                            ->contains($permission);
     }
 
     /**

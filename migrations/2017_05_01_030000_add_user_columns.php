@@ -4,7 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMembershipColumns extends Migration
+/**
+ * Class AddUserColumns
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
+class AddUserColumns extends Migration
 {
     /**
      * Run the migrations.

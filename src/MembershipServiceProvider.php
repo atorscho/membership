@@ -5,6 +5,13 @@ namespace Atorscho\Membership;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class MembershipServiceProvider
+ *
+ * @package Atorscho\Membership
+ * @author  Alex Torscho <contact@alextorscho.com>
+ * @version 2.0.0
+ */
 class MembershipServiceProvider extends ServiceProvider
 {
     /**
@@ -16,11 +23,14 @@ class MembershipServiceProvider extends ServiceProvider
     {
         // Configuration
         $this->publishes([
-            __DIR__.'/../config/membership.php' => config_path('membership.php'),
-        ]);
+            __DIR__ . '/../config/membership.php' => config_path('membership.php'),
+        ], 'config');
 
         // Migrations
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+        $this->publishes([
+            __DIR__ . '/../migrations/' => database_path('migrations')
+        ], 'migrations');
     }
 
     /**
@@ -31,9 +41,7 @@ class MembershipServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge Configuration
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/membership.php', 'membership'
-        );
+        $this->mergeConfigFrom(__DIR__ . '/../config/membership.php', 'membership');
 
         // Register the Facade
         $this->app->bind('membership', function ($app) {
