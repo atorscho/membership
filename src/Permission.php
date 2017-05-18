@@ -11,8 +11,20 @@ use InvalidArgumentException;
  * Class Permission
  *
  * @package Atorscho\Membership
- * @author  Alex Torscho <contact@alextorscho.com>
+ * @author Alex Torscho <contact@alextorscho.com>
  * @version 2.0.0
+ * @property int $id
+ * @property string $name
+ * @property string $handle
+ * @property string $type
+ * @property-read mixed $code
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Atorscho\Membership\Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Devhouse\Membership\User[] $users
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Permission whereHandle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Permission whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Permission whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Permission whereType($value)
+ * @mixin \Eloquent
  */
 class Permission extends Model
 {

@@ -3,6 +3,7 @@
 namespace Atorscho\Membership;
 
 use App\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
@@ -67,7 +68,7 @@ class Membership
         $permissions = Permission::all(['handle', 'type']);
 
         foreach ($permissions as $permission) {
-            Gate::define($permission->code, function (User $user, ?Model $model = null, string $userForeignKey = 'user_id') use ($permission) {
+            Gate::define($permission->code, function (Authenticatable $user, ?Model $model = null, string $userForeignKey = 'user_id') use ($permission) {
                 return $user->hasPermission($permission->code, $model, $userForeignKey);
             });
         }

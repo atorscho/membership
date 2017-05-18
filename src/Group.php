@@ -11,8 +11,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * Class Group
  *
  * @package Atorscho\Membership
- * @author  Alex Torscho <contact@alextorscho.com>
+ * @author Alex Torscho <contact@alextorscho.com>
  * @version 2.0.0
+ * @property int $id
+ * @property string $name
+ * @property string $handle
+ * @property string $open_tag
+ * @property string $close_tag
+ * @property int $limit
+ * @property bool $public
+ * @property-read mixed $formatted_name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Devhouse\Membership\User[] $leaders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Atorscho\Membership\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Devhouse\Membership\User[] $users
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Group whereCloseTag($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Group whereHandle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Group whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Group whereLimit($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Group whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Group whereOpenTag($value)
+ * @method static \Illuminate\Database\Query\Builder|\Atorscho\Membership\Group wherePublic($value)
+ * @mixin \Eloquent
  */
 class Group extends Model
 {
