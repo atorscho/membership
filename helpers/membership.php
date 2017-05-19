@@ -42,6 +42,10 @@ if (!function_exists('user_can')) {
      */
     function user_can(string $code, ?Model $model = null, string $userForeignKey = 'user_id'): bool
     {
+        if (is_guest()) {
+            return false;
+        }
+
         return user()->hasPermission($code, $model, $userForeignKey);
 	}
 }
@@ -56,6 +60,10 @@ if (!function_exists('user_is')) {
      */
     function user_is($group): bool
     {
+        if (is_guest()) {
+            return false;
+        }
+
         return user()->isAssignedTo($group);
 	}
 }
