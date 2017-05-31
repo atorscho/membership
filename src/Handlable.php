@@ -36,6 +36,6 @@ trait Handlable
      */
     public function setHandleAttribute(?string $handle): void
     {
-        $this->attributes['handle'] = $handle ? str_slug($handle) : str_slug($this->name);
+        $this->attributes['handle'] = str_slug($handle ?: $this->name);
     }
 }
