@@ -2,13 +2,18 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
-[![StyleCI][ico-styleci]][link-styleci]
 [![Software License][ico-license]][link-license]
 
-Powerful user membership system for Laravel 5 with user groups and permissions.
+Yet another user groups management system.
 
-## Documentation
-See the [documentation][link-docs] to learn how to use "Membership".
+It includes some additional features like:
+- Group Leaders: each group can have one or more leaders
+- Group Prefixes and Suffixes: group members may have formatted names depending on their group belonging
+- Group Limit: a group can have a limit of members
+
+## How To Use
+
+> in progress
 
 ## Change log
 
@@ -34,14 +39,11 @@ The MIT License (MIT). Please see [License File][link-license] for more informat
 [ico-version]: https://poser.pugx.org/atorscho/membership/version
 [ico-license]: https://poser.pugx.org/atorscho/membership/license
 [ico-downloads]: https://poser.pugx.org/atorscho/membership/downloads
-[ico-styleci]: https://styleci.io/repos/40326779/shield?style=flat
 
 [link-packagist]: https://packagist.org/packages/atorscho/membership
 [link-downloads]: https://packagist.org/packages/atorscho/membership
-[link-styleci]: https://styleci.io/repos/40326779
 [link-author]: https://github.com/atorscho
 [link-contributors]: https://github.com/atorscho/membership/graphs/contributors
 [link-contributing]: https://github.com/atorscho/membership/blob/master/CONTRIBUTING.md
 [link-changelog]: https://github.com/atorscho/membership/blob/master/CHANGELOG.md
 [link-license]: https://github.com/atorscho/membership/blob/master/LICENSE.md
-[link-docs]: https://atorscho.gitbooks.io/membership/content/docs/installation.html
