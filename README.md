@@ -11,9 +11,9 @@ It includes some additional features like:
 - Group Prefixes and Suffixes: group members may have formatted names depending on their group belonging
 - Group Limit: a group can have a limit of members
 
-## How To Use
+## Documentation
 
-> in progress
+> [in progress]
 
 ## Change log
 
