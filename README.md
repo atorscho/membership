@@ -13,7 +13,7 @@ It includes some additional features like:
 
 ## Documentation
 
-> [in progress]
+Read the [Wiki](https://github.com/atorscho/membership/wiki).
 
 ## Change log
 
