@@ -18,13 +18,13 @@ class MembershipableTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_be_unassigned_from_a_group()
+    public function a_user_can_be_retracted_from_a_group()
     {
         $user  = $this->createUser();
         $group = $this->createGroup();
 
         $user->assignTo($group);
-        $user->unassignFrom($group);
+        $user->retractFrom($group);
         $this->assertDatabaseMissing('user_groups', [
             'user_id'  => 1,
             'group_id' => 1
@@ -42,7 +42,7 @@ class MembershipableTest extends TestCase
         $this->assertTrue($user->isAssignedTo($group));
         $this->assertFalse($user->isAssignedTo($group2));
 
-        $user->unassignFrom($group);
+        $user->retractFrom($group);
         $this->assertFalse($user->isAssignedTo($group));
     }
 

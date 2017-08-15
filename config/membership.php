@@ -12,8 +12,8 @@ return [
         'table' => 'users'
     ],
 
-    'permissions' => [
-        'types' => ['articles', 'users']
-    ]
+    // 'permissions' => [
+    //     'types' => ['articles', 'users']
+    // ]
 
 ];

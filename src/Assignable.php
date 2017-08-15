@@ -26,11 +26,11 @@ trait Assignable
     }
 
     /**
-     * Unassign the model from a group.
+     * Retract the model from a group.
      *
      * @param int|string|Group $group
      */
-    public function unassignFrom($group): void
+    public function retractFrom($group): void
     {
         $group = $this->resolveGroup($group);
 

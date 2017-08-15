@@ -38,13 +38,6 @@ class Permission extends Model
     protected $fillable = ['name', 'handle', 'type'];
 
     /**
-     * Disable timestamps population.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The accessors to append to the model's array form.
      *
      * @var array
@@ -52,9 +45,16 @@ class Permission extends Model
     protected $appends = ['code'];
 
     /**
-     * Find a permissions by their type.
+     * Disable timestamps population.
+     *
+     * @var bool
      */
-    public static function searchType(string $type, array $attributes = ['*'])
+    public $timestamps = false;
+
+    /**
+     * Find permissions by their type.
+     */
+    public static function findByType(string $type, array $attributes = ['*'])
     {
         return static::where('type', $type)->get($attributes);
     }

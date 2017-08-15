@@ -45,13 +45,6 @@ class Group extends Model
     protected $fillable = ['name', 'handle', 'open_tag', 'close_tag', 'limit', 'public'];
 
     /**
-     * Disable timestamps population.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * Cast attributes to relevant types.
      *
      * @var array
@@ -60,6 +53,20 @@ class Group extends Model
         'limit'  => 'int',
         'public' => 'bool'
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['formatted_name'];
+
+    /**
+     * Disable timestamps population.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * Get group's users.
@@ -117,7 +124,7 @@ class Group extends Model
         foreach ($permissions as $permission) {
             $permission = $this->resolvePermission($permission);
 
-            $permission->unassignFrom($this);
+            $permission->retractFrom($this);
         }
     }
 
@@ -155,11 +162,11 @@ class Group extends Model
     }
 
     /**
-     * Unassign a user from the group.
+     * Retract a user from the group.
      *
      * @param int|Authenticatable $user
      */
-    public function unassign($user): void
+    public function retract($user): void
     {
         $this->users()->detach($user);
     }
@@ -187,6 +194,16 @@ class Group extends Model
     }
 
     /**
+     * Remove a leader from the group.
+     *
+     * @param int|Authenticatable $user
+     */
+    public function removeLeader($user): void
+    {
+        $this->leaders()->detach($user);
+    }
+
+    /**
      * Determine whether a given user is leader of the group.
      *
      * @param int|Authenticatable $user
@@ -196,6 +213,16 @@ class Group extends Model
     public function hasLeader($user): bool
     {
         return $this->leaders()->where('user_id', $user->id)->exists();
+    }
+
+    /**
+     * Check whether the limit has been exceeded.
+     *
+     * 0 disables any limit.
+     */
+    public function limitExceeded(): bool
+    {
+        return $this->limit !== 0 && $this->users()->count() >= $this->limit;
     }
 
     /**
@@ -222,15 +249,5 @@ class Group extends Model
         }
 
         return $permission;
-    }
-
-    /**
-     * Check whether the limit has been exceeded.
-     *
-     * 0 disables any limit.
-     */
-    protected function limitExceeded(): bool
-    {
-        return $this->limit !== 0 && $this->users()->count() >= $this->limit;
     }
 }

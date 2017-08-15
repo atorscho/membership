@@ -62,7 +62,7 @@ trait Membershipable
     }
 
     /**
-     * Lose given permissions from the group.
+     * Remove given permissions from the user.
      *
      * @param array|Permission|Collection|string $permissions
      */

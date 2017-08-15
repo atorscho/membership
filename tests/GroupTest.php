@@ -160,7 +160,7 @@ class GroupTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_be_unassigned_from_the_group()
+    public function a_user_can_be_retracted_from_the_group()
     {
         $user  = $this->createUser();
         $group = $this->createGroup(['name' => 'Admins']);
@@ -171,7 +171,7 @@ class GroupTest extends TestCase
             'group_id' => 1,
         ]);
 
-        $group->unassign($user);
+        $group->retract($user);
         $this->assertDatabaseMissing('user_groups', [
             'user_id'  => 1,
             'group_id' => 1,
@@ -187,7 +187,7 @@ class GroupTest extends TestCase
         $group->assign($user);
         $this->assertTrue($group->hasAssigned($user));
 
-        $group->unassign($user);
+        $group->retract($user);
         $this->assertFalse($group->hasAssigned($user));
     }
 

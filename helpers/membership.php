@@ -24,9 +24,7 @@ if (!function_exists('is_guest')) {
 
 if (!function_exists('user')) {
     /**
-     * Retrieve currently authenticated user or its attribute value.
-     *
-     * @param string|null $attribute Optional.
+     * Retrieve currently authenticated user or his attribute value.
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable|string|null
      */
@@ -38,7 +36,7 @@ if (!function_exists('user')) {
 
 if (!function_exists('user_can')) {
     /**
-     * Check whether the user has given permission.
+     * Check whether the user has a given permission.
      */
     function user_can(string $code, ?Model $model = null, string $userForeignKey = 'user_id'): bool
     {

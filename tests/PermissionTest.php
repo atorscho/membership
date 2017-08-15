@@ -55,7 +55,7 @@ class PermissionTest extends TestCase
         $this->createPermission();
 
         $this->assertEquals(5, Permission::count());
-        $this->assertEquals(2, Permission::searchType('users')->count());
+        $this->assertEquals(2, Permission::findByType('users')->count());
     }
 
     /** @test */
@@ -116,7 +116,7 @@ class PermissionTest extends TestCase
     }
 
     /** @test */
-    public function a_permission_can_be_unassigned_from_a_group()
+    public function a_permission_can_be_retracted_from_a_group()
     {
         $group       = $this->createGroup(['name' => 'Admins']);
         $permission = $this->createPermission(['handle' => 'create', 'type' => 'users']);
@@ -127,7 +127,7 @@ class PermissionTest extends TestCase
         $this->assertTrue($permission->isAssignedTo($group));
         $this->assertTrue($permission2->isAssignedTo($group));
 
-        $permission->unassignFrom($group);
+        $permission->retractFrom($group);
         $this->assertFalse($permission->isAssignedTo($group));
         $this->assertTrue($permission2->isAssignedTo($group));
     }
