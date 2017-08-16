@@ -239,7 +239,7 @@ class GroupTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_users_primary_group_when_assigning_it_to_a_group()
+    public function it_sets_users_primary_group_when_assigning_him_to_a_group()
     {
         $user  = $this->createUser();
         $group = $this->createGroup();

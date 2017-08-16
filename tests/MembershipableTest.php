@@ -138,7 +138,7 @@ class MembershipableTest extends TestCase
     /** @test */
     public function it_checks_whether_the_user_has_own_permission()
     {
-        $user  = $this->createUser();
+        $user = $this->createUser();
 
         $user->grantPermissions(
             $perm1 = $this->createPermission(),
@@ -148,5 +148,31 @@ class MembershipableTest extends TestCase
 
         $this->assertTrue($user->hasPermission($perm1->code));
         $this->assertFalse($user->hasPermission('some-inexistent-permission'));
+    }
+
+    /** @test */
+    public function it_returns_user_primary_group()
+    {
+        $user = $this->createUser();
+        $group = $this->createGroup();
+
+        $group->assign($user, true);
+
+        $this->assertEquals($group->id, $user->fresh()->primaryGroup->id);
+    }
+
+    /** @test */
+    public function it_formats_user_name_according_to_the_primary_group_tags()
+    {
+        $user = $this->createUser(['name' => 'John']);
+        $group = $this->createGroup(['open_tag' => '<span>', 'close_tag' => '</span>']);
+
+        $this->assertEquals('', $user->formatted_name);
+
+        $group->assign($user, true);
+
+        \Config::shouldReceive('get')->once()->with('membership.users.name_column')->andReturn('name');
+
+        $this->assertEquals('<span>John</span>', $user->fresh()->formatted_name);
     }
 }

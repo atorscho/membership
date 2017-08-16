@@ -23,7 +23,7 @@ class AddColumnsToTheUsersTable extends Migration
         $config = require __DIR__ . '/../config/membership.php';
 
         Schema::table($config['users']['table'], function (Blueprint $table) use ($config) {
-            $table->unsignedInteger('primary_group_id')->nullable()->default($config['groups']['default']);
+            $table->unsignedInteger('primary_group_id')->nullable();
 
             $table->foreign('primary_group_id')->references('id')->on('groups')->onDelete('set null');
         });

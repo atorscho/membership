@@ -77,13 +77,13 @@ class TestCase extends \Tests\TestCase
     /**
      * Generate a random user.
      */
-    protected function createUser(array $attributes = []): Authenticatable
+    protected function createUser(array $attributes = [])
     {
-        return $this->userModel::create([
+        return $this->userModel::create(array_merge([
             'name'     => $this->faker->name,
             'email'    => $this->faker->email,
             'password' => bcrypt('secret')
-        ]);
+        ], $attributes));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Atorscho\Membership;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
@@ -25,6 +26,14 @@ trait Membershipable
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'user_groups');
+    }
+
+    /**
+     * Get user's primary group.
+     */
+    public function primaryGroup(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
     }
 
     /**
@@ -124,6 +133,20 @@ trait Membershipable
         $group = $this->resolveGroup($group);
 
         return $this->leadingGroups()->where('group_id', is_int($group) ? $group : $group->id)->exists();
+    }
+
+    /**
+     * Get user's formatted name according to his primary group tags.
+     */
+    public function getFormattedNameAttribute(): string
+    {
+        if (!$this->primary_group_id) {
+            return '';
+        }
+
+        $nameField = \Config::get('membership.users.name_column');
+
+        return $this->primaryGroup->open_tag . $this->{$nameField} . $this->primaryGroup->close_tag;
     }
 
     /**

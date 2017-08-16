@@ -10,14 +10,17 @@ return [
 
     'users' => [
 
-        'table' => 'users'
+        'table' => 'users',
+
+        // Laravel's default - 'name`, usually 'username'
+        'name_column' => 'name',
 
     ],
 
     'groups' => [
 
         // Default group ID
-        'default' => 1
+        'default' => 1,
 
     ],
 
