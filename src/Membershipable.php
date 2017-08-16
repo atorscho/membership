@@ -140,11 +140,11 @@ trait Membershipable
      */
     public function getFormattedNameAttribute(): string
     {
-        if (!$this->primary_group_id) {
-            return '';
-        }
-
         $nameField = \Config::get('membership.users.name_column');
+
+        if (!$this->primary_group_id) {
+            return $this->{$nameField};
+        }
 
         return $this->primaryGroup->open_tag . $this->{$nameField} . $this->primaryGroup->close_tag;
     }

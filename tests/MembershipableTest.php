@@ -162,12 +162,20 @@ class MembershipableTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_user_name_as_formatted_if_no_primary_group_is_specified()
+    {
+        $user = $this->createUser(['name' => 'John']);
+
+        \Config::shouldReceive('get')->once()->with('membership.users.name_column')->andReturn('name');
+
+        $this->assertEquals('John', $user->formatted_name);
+    }
+
+    /** @test */
     public function it_formats_user_name_according_to_the_primary_group_tags()
     {
         $user = $this->createUser(['name' => 'John']);
         $group = $this->createGroup(['open_tag' => '<span>', 'close_tag' => '</span>']);
-
-        $this->assertEquals('', $user->formatted_name);
 
         $group->assign($user, true);
 
