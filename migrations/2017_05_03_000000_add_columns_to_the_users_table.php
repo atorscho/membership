@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Class CreateUserPermissionsTable
@@ -41,5 +41,6 @@ class AddColumnsToTheUsersTable extends Migration
         Schema::table($config['users']['table'], function (Blueprint $table) {
             $table->dropForeign('primary_group_id');
             $table->dropColumn('primary_group_id');
-        });  }
+        });
+    }
 }
