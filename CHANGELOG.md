@@ -7,7 +7,7 @@ All Notable changes to `membership` will be documented in this file.
 ### Added
 - Support for Laravel 5.5
 
-## v2.0
+## v2.0 - [2017-08-16]
 
 Complete rewrite of the package with new features added.
 
